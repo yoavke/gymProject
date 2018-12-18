@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" src="functions.js"></script>
+    <script type="text/javascript">
+        //TODO: remove this comment
+    </script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div data-role="page">
+    <div data-role="header">
+        <h1>
+            Registration
+        </h1>
+    </div>
+    <div data-role="main" class="ui-content">
+        <h2>Sign-up Form:</h2>
+        <!-- TODO: send data to Java code which connect to the DB -->
+        <form type="post" action="signup.html">
+            <div class="ui-field-contain">
+                <label for="firstName">First Name:</label>
+                <input type="text" name="firstName" id="firstName" value="">
+            </div>
+            <div class="ui-field-contain">
+                <label for="lastName">Last Name:</label>
+                <input type="text" name="lastName" id="lastName" value="">
+            </div>
+            <div class="ui-field-contain">
+                <label for="email">Email:</label>
+                <input type="text" name="email" id="email" value="">
+            </div>
+            <div class="ui-field-contain">
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username" value="">
+            </div>
+            <!-- TODO: Hash password with MD5 //-->
+            <div class="ui-field-contain">
+                <label for="pwd">Password:</label>
+                <input type="password" name="pwd" id="pwd" />
+            </div>
+        </form>
+    </div>
+    <div data-role="footer">
+        <h2 id="foot"></h2>
+    </div>
+</div>
+</body>
+</html>

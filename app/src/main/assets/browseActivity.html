@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" src="functions.js"></script>
+    <script type="text/javascript">
+        <!-- //if user is logged out - transfer to login page
+        //TODO: uncomment the lines below
+        //authentication();
+        //-->
+    </script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div data-role="page">
+    <div data-role="header">
+        <h1>
+            Browse Activites
+        </h1>
+    </div>
+    <div data-role="main" class="ui-content">
+        <h2>List of all activites</h2>
+        <!-- for each activity - add links to delete/edit activity -->
+        <!--  edit popup a form, delete show activites after deletion -->
+        <!-- using ajax for both -->
+        <p>
+            All activities will be listed in this page.<br>
+            The user also have a button in the bottom of the page, to add a new activity.
+        </p>
+        <a href="addActivity.html" class="ui-btn ui-corner-all">Add new activity</a>
+    </div>
+    <div data-role="footer">
+        <h2 id="foot"></h2>
+    </div>
+</div>
+</body>
+</html>
