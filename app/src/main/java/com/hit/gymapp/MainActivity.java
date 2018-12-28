@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         WebView webby = findViewById(R.id.myWebView);
         webby.getSettings().setJavaScriptEnabled(true);
+        webby.setWebViewClient(new MyBrowser());
         webby.loadUrl("file:///android_asset/index.html");
 
         //setContentView(wv);
