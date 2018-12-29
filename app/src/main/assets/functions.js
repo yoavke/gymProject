@@ -33,5 +33,5 @@ function authentication()
 window.onload = function ()
 {
     let my_foot = document.querySelector(".foot");
-    my_foot.innerHTML = '<a href="index.html" data-ajax="false">Go Home</a> HIT Android Project - Jonathan Hakim, Yoav Keren.';
+    my_foot.innerHTML = '<a href="index.html" data-ajax="false">Go Home</a> HIT Project - Yoav Keren';
 }

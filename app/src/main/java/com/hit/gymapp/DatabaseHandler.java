@@ -74,38 +74,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //create Trainer_Activity table
         db.execSQL("CREATE TABLE " + Tables.TRAINER_ACTIVITY + "("+Columns.T_A_COL_1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+Columns.T_A_COL_2+" INTEGER,"+Columns.T_A_COL_3+" INTEGER,"+Columns.T_A_COL_4+" INTEGER,"+Columns.T_A_COL_5+" INTEGER)");
 
-        //TODO remove comment and fix the bug that I cant use this method and must use its content below
-        //set default values to the Activites table
-        //this.setActivitesValues();
-
-
-//        //initialize ContentValues object
-//        ContentValues values = new ContentValues();
-//
-//        //1 aerobic
-//        values.put(DatabaseHandler.Columns.A_COL_2, 1);
-//        values.put(DatabaseHandler.Columns.A_COL_3, "running");
-//        values.put(DatabaseHandler.Columns.A_COL_2, 1);
-//        values.put(DatabaseHandler.Columns.A_COL_3, "swimming");
-//        values.put(DatabaseHandler.Columns.A_COL_2, 1);
-//        values.put(DatabaseHandler.Columns.A_COL_3, "bicycle");
-//
-//        //2 anaerobic
-//        values.put(DatabaseHandler.Columns.A_COL_2, 2);
-//        values.put(DatabaseHandler.Columns.A_COL_3, "chest");
-//        values.put(DatabaseHandler.Columns.A_COL_2, 2);
-//        values.put(DatabaseHandler.Columns.A_COL_3, "back");
-//        values.put(DatabaseHandler.Columns.A_COL_2, 2);
-//        values.put(DatabaseHandler.Columns.A_COL_3, "legs");
-
-
-        db.execSQL("INSERT INTO "+Tables.ACTIVITIES+"("+Columns.A_COL_2+","+Columns.A_COL_3+") VALUES(1,'running'),(1,'swimming'),(1,'bicycle'),(2,'chese'),(2,'back'),(2,'legs')");
+        //set default values
+        db.execSQL("INSERT INTO "+Tables.ACTIVITIES+"("+Columns.A_COL_2+","+Columns.A_COL_3+") VALUES(1,'running'),(1,'swimming'),(1,'bicycle'),(2,'chest'),(2,'back'),(2,'legs')");
         db.execSQL("INSERT INTO "+Tables.TRAINERS+"("+Columns.T_COL_2+","+Columns.T_COL_3+","+Columns.T_COL_4+") VALUES('trainee','trainee',18)");
-
-        //TODO fix this bug - add all activites and not just the last one.
-        //TODO use putall or check in the internet
-
-        //db.insert(Tables.ACTIVITIES,null,values);
 
         this.showToast(this.context,"initialized");
     }
@@ -137,8 +108,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (db.insert(Tables.ACTIVITIES,null,values)!=-1)
         {
             this.showToast(this.context,"Activity added");
+        } else {
+            this.showToast(this.context,"Error: try again to add");
         }
-
     }
 
     //TODO implement deletion method

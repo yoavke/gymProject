@@ -6,10 +6,21 @@
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script type="text/javascript" src="functions.js"></script>
     <script type="text/javascript">
-        <!-- //if user is logged out - transfer to login page
-        //TODO: uncomment the lines below
-        //authentication();
-        //-->
+        window.onload = function() {
+            let addAerobicActivity = document.querySelector("#addAeActivity");
+            let addAnAerobicActivity = document.querySelector("#addAnActivity");
+
+            //interact with the JAVA code of the application
+            //addToDb property is the string we send from the JAVA code
+            //addActivity is the method in the object of the JAVA code
+            addAerobicActivity.addEventListener("click",function() {
+                window.addToDb.addActivity(document.querySelector("#AerobicActivity").value);
+            });
+
+            addAnAerobicActivity.addEventListener("click",function() {
+                window.addToDb.addActivity(document.querySelector("#AnaerobicActivity").value);
+            });
+        }
     </script>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -25,12 +36,12 @@
         <h2>Add new activity</h2>
         <!-- TODO: send data to Java code which connect to the DB //-->
         <form type="post" action="login.html">
-            <a href="#addAerobic" class="ui-btn ui-corner-all">Add Aerobic Activity</a>
-            <a href="#addAnAerobic" class="ui-btn ui-corner-all">Add Anaerobic Activity</a>
+            <a href="#addAerobic" class="ui-btn ui-corner-all">Add Aerobic Activity!</a>
+            <a href="#addAnAerobic" class="ui-btn ui-corner-all">Add Anaerobic Activity!</a>
         </form>
     </div>
     <div data-role="footer">
-        <h2 class="class"></h2>
+        <h2 class="foot"></h2>
     </div>
 </div>
 <div data-role="page" id="addAerobic">
@@ -40,17 +51,15 @@
         </h1>
     </div>
     <div data-role="main" class="ui-content">
-        <form>
-            <div class="ui-field-contain">
-                <label for="aerobicActivity">Select aerobic activity:</label>
-                <select name="aerobicActivity" id="aerobicActivity" value="">
-                    <option value="running">running</option>
-                    <option value="swimming">swimming</option>
-                    <option value="bicycle">bicycle</option>
-                </select>
-            </div>
-            <input type="submit" id="submitAerobicForm" value="Add!"/>
-        </form>
+        <div class="ui-field-contain">
+            <label for="aerobicActivity">Select aerobic activity:</label>
+            <select name="aerobicActivity" id="AerobicActivity">
+                <option value="running">running</option>
+                <option value="swimming">swimming</option>
+                <option value="bicycle">bicycle</option>
+            </select>
+        </div>
+        <a href="" id="addAeActivity" class="ui-btn ui-corner-all">Submit</a>
     </div>
     <div data-role="footer">
         <h2 class="foot"></h2>
@@ -63,18 +72,16 @@
         </h1>
     </div>
     <div data-role="main" class="ui-content">
-        <form>
-            <div class="ui-field-contain">
-                <label for="AnaerobicActivity">Select aerobic activity:</label>
-                <select name="AnaerobicActivity" id="AnaerobicActivity" value="">
-                    <option value="weights">weights</option>
-                    <option value="legs">legs</option>
-                    <option value="back">back</option>
-                    <option value="shoulders">shoulders</option>
-                </select>
-            </div>
-            <input type="submit" id="submitAnAerobicForm" value="Add!"/>
-        </form>
+        <div class="ui-field-contain">
+            <label for="AnaerobicActivity">Select aerobic activity:</label>
+            <select name="AnaerobicActivity" id="AnaerobicActivity">
+                <option value="weights">weights</option>
+                <option value="legs">legs</option>
+                <option value="back">back</option>
+                <option value="shoulders">shoulders</option>
+            </select>
+        </div>
+        <a href="" id="addAnActivity" class="ui-btn ui-corner-all">Submit</a>
     </div>
     <div data-role="footer">
         <h2 class="foot"></h2>
