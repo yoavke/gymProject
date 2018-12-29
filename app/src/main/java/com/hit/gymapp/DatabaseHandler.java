@@ -1,5 +1,6 @@
 package com.hit.gymapp;
 
+import android.app.ActionBar;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.widget.Toast;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseHandler extends SQLiteOpenHelper {
 
     private SQLiteDatabase db;  //hold ref to the db
     private Context context;    //active activity
@@ -47,7 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * Constructor
      * @param context
      */
-    public DatabaseHelper(Context context) {
+    public DatabaseHandler(Context context) {
 
         //calling SQLiteOpenHelper constructor
         super(context,DATABASE_NAME,null,1 );
@@ -62,7 +63,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase db)
+    {
         //create Trainers table
         db.execSQL("CREATE TABLE " + Tables.TRAINERS + "("+Columns.T_COL_1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+Columns.T_COL_2+" TEXT,"+Columns.T_COL_3+" TEXT,"+Columns.T_COL_4+" INTEGER)");
 
@@ -77,29 +79,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //this.setActivitesValues();
 
 
-        //initialize ContentValues object
-        ContentValues values = new ContentValues();
+//        //initialize ContentValues object
+//        ContentValues values = new ContentValues();
+//
+//        //1 aerobic
+//        values.put(DatabaseHandler.Columns.A_COL_2, 1);
+//        values.put(DatabaseHandler.Columns.A_COL_3, "running");
+//        values.put(DatabaseHandler.Columns.A_COL_2, 1);
+//        values.put(DatabaseHandler.Columns.A_COL_3, "swimming");
+//        values.put(DatabaseHandler.Columns.A_COL_2, 1);
+//        values.put(DatabaseHandler.Columns.A_COL_3, "bicycle");
+//
+//        //2 anaerobic
+//        values.put(DatabaseHandler.Columns.A_COL_2, 2);
+//        values.put(DatabaseHandler.Columns.A_COL_3, "chest");
+//        values.put(DatabaseHandler.Columns.A_COL_2, 2);
+//        values.put(DatabaseHandler.Columns.A_COL_3, "back");
+//        values.put(DatabaseHandler.Columns.A_COL_2, 2);
+//        values.put(DatabaseHandler.Columns.A_COL_3, "legs");
 
-        //1 aerobic
-        values.put(DatabaseHelper.Columns.A_COL_2, 1);
-        values.put(DatabaseHelper.Columns.A_COL_3, "running");
-        values.put(DatabaseHelper.Columns.A_COL_2, 1);
-        values.put(DatabaseHelper.Columns.A_COL_3, "swimming");
-        values.put(DatabaseHelper.Columns.A_COL_2, 1);
-        values.put(DatabaseHelper.Columns.A_COL_3, "bicycle");
 
-        //2 anaerobic
-        values.put(DatabaseHelper.Columns.A_COL_2, 2);
-        values.put(DatabaseHelper.Columns.A_COL_3, "chest");
-        values.put(DatabaseHelper.Columns.A_COL_2, 2);
-        values.put(DatabaseHelper.Columns.A_COL_3, "back");
-        values.put(DatabaseHelper.Columns.A_COL_2, 2);
-        values.put(DatabaseHelper.Columns.A_COL_3, "legs");
+        db.execSQL("INSERT INTO "+Tables.ACTIVITIES+"("+Columns.A_COL_2+","+Columns.A_COL_3+") VALUES(1,'running'),(1,'swimming'),(1,'bicycle'),(2,'chese'),(2,'back'),(2,'legs')");
+        db.execSQL("INSERT INTO "+Tables.TRAINERS+"("+Columns.T_COL_2+","+Columns.T_COL_3+","+Columns.T_COL_4+") VALUES('trainee','trainee',18)");
 
         //TODO fix this bug - add all activites and not just the last one.
         //TODO use putall or check in the internet
 
-        db.insert(Tables.ACTIVITIES,null,values);
+        //db.insert(Tables.ACTIVITIES,null,values);
 
         this.showToast(this.context,"initialized");
     }
@@ -124,8 +130,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         //fill in the values
-        values.put(DatabaseHelper.Columns.A_COL_2, activityCategory);
-        values.put(DatabaseHelper.Columns.A_COL_3, activity);
+        values.put(DatabaseHandler.Columns.A_COL_2, activityCategory);
+        values.put(DatabaseHandler.Columns.A_COL_3, activity);
 
         //make the insertion to the db
         if (db.insert(Tables.ACTIVITIES,null,values)!=-1)

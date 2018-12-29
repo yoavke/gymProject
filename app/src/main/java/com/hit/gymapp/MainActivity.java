@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         webby.loadUrl("file:///android_asset/index.html");
 
         //creating instance of DatabaseHelper to control the Database
-        DatabaseHelper myDb = new DatabaseHelper(this);
+        DatabaseHandler myDb = new DatabaseHandler(this);
 
     }
 
