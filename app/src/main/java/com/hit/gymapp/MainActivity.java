@@ -1,18 +1,13 @@
 package com.hit.gymapp;
 
+//TODO remove libraries I dont use
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-
-    //database helper
-    private DatabaseHelper myDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +19,8 @@ public class MainActivity extends AppCompatActivity {
         webby.setWebViewClient(new MyBrowser());
         webby.loadUrl("file:///android_asset/index.html");
 
-        //setContentView(wv);
-
         //creating instance of DatabaseHelper to control the Database
-        myDb = new DatabaseHelper(this);
+        DatabaseHelper myDb = new DatabaseHelper(this);
 
     }
 
