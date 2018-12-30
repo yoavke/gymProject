@@ -6,34 +6,39 @@
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script type="text/javascript" src="functions.js"></script>
     <script type="text/javascript">
-        var xhr = new XMLHttpRequest();
+        window.onload = function() {
+            //send 1 to browseActivites() method to retrieve only Aerobic activities
+            let json = JSON.parse(window.browseFromDb.browseActivities("1"));
+            let activities = json.activities;
+            for (let i = 0 ; i<activities.length;i++) {
+                let date = new Date(parseInt(activities[i].timestamp));
+                document.querySelector("#activityList").innerHTML += (i+1)+". "+activities[i].activity + " - " + date.getDate() +"/"+ date.getMonth() +"/"+ date.getFullYear()  + "<br />";
+            }
 
-        on.load = function() {
-            xhr.abort()
-            xhr.
+
+            /*
+            getFullYear()
+            getDate() - day - plus 1
+            getMonth() - month - plus 1
+             */
         }
     </script>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<div data-role="page" id="browse">
+<div data-role="page">
     <div data-role="header">
         <h1>
-            Browse Activites
+            Browse Activities
         </h1>
     </div>
     <div data-role="main" class="ui-content">
         <h2>List of all activites</h2>
-        <!-- for each activity - add links to delete/edit activity -->
-        <!--  edit popup a form, delete show activites after deletion -->
-        <!-- using ajax for both -->
-        <p>
-            Pick one of the links below:
-            <a href="#browseAerobic" id="ae" class="ui-btn ui-corner-all">Aerobics</a>
-            <a href="#browseAnAerobic" id="anae" class="ui-btn ui-corner-all">Anaerobics</a>
+        <p id="activityList">
+            Your aerobic list:<br />
         </p>
-        <a href="browseActivity.html.html" class="ui-btn ui-corner-all" data-ajax="false">Browse</a>
+        <a href="addActivity.html" class="ui-btn ui-corner-all" data-ajax="false">Add new activity</a>
     </div>
     <div data-role="footer">
         <h2 class="foot"></h2>

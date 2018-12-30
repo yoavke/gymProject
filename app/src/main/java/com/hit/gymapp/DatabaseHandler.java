@@ -3,11 +3,14 @@ package com.hit.gymapp;
 import android.app.ActionBar;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.widget.Toast;
 import java.sql.Timestamp;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 
 public class DatabaseHandler extends SQLiteOpenHelper {
@@ -120,6 +123,50 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         } else {
             this.showToast(this.context,"Error: try again to add");
         }
+    }
+
+    @android.webkit.JavascriptInterface
+    public String browseActivities(int activityId) {
+        //which category to search
+        String search;
+        if (activityId<4) {
+            //aerobic
+            search = "1";
+        } else {
+            //anaerobic
+            search = "2";
+        }
+
+        //initialize JSON object to store the dataset of the query
+        JSONObject json = new JSONObject();
+        JSONArray arr = new JSONArray();
+        json.put("activities",arr);
+
+        //save the dataset inside a cursor
+        //"SELECT "+BaseColumns._ID+",                              activity_id,timestamp,length,activity FROM "+Tables.TRAINER_ACTIVITY+" INNER JOIN Activities ON Trainer_Activity.activity_id=Activities._id WHERE "+Columns.T_A_COL_3+"=?",new String[] {search}
+        //"SELECT "+BaseColumns._ID+",activity_id,timestamp,length,activity FROM "+Tables.TRAINER_ACTIVITY+" INNER JOIN Activities ON Trainer_Activity.activity_id=Activities._id WHERE "+Columns.T_A_COL_3+"=1",null
+        Cursor cursor = db.rawQuery("SELECT * FROM "+Tables.TRAINER_ACTIVITY+" INNER JOIN "+Tables.ACTIVITIES+" ON "+Tables.TRAINER_ACTIVITY+"."+Columns.T_A_COL_3+"="+Tables.ACTIVITIES+"."+BaseColumns._ID+" WHERE "+Tables.ACTIVITIES+"."+Columns.A_COL_2+"=?",new String[] {search});
+
+
+
+        //looping through the cursor to put the data in the json
+        try {
+            while (cursor.moveToNext()) {
+                JSONObject item = new JSONObject();
+                item.put(BaseColumns._ID,cursor.getString(cursor.getColumnIndex(BaseColumns._ID)));
+                item.put("activity_id",cursor.getString(cursor.getColumnIndex("activity_id")));
+                item.put("timestamp",cursor.getString(cursor.getColumnIndex("timestamp")));
+                item.put("length",cursor.getString(cursor.getColumnIndex("length")));
+                item.put("activity",cursor.getString(cursor.getColumnIndex("activity")));
+                arr.add(item);
+            }
+        } finally {
+            //close the cursor
+            cursor.close();
+        }
+
+        //return json format with all data from the database
+        return json.toJSONString();
     }
 
     //TODO implement deletion method
