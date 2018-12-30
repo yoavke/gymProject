@@ -41,17 +41,11 @@ public class MainActivity extends AppCompatActivity {
     public class addInteraction
     {
         @android.webkit.JavascriptInterface
-        public void addActivity(String activity)
+        public void addActivity(String activityId, String length)
         {
-            int activity_category;
-
-            if (activity.equals("running") || activity.equals("swimming") || activity.equals("bicycle")) {
-                activity_category = 1;
-            } else {
-                activity_category = 2;
-            }
-
-            myDb.addActivity(activity_category,activity);
+            //1 - the trainer id (might get dynamic in next versions
+            //in this version, we have only one account
+            myDb.addActivity(1,Integer.parseInt(activityId),Integer.parseInt(length));
         }
     }
 

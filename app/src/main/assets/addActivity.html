@@ -14,11 +14,11 @@
             //addToDb property is the string we send from the JAVA code
             //addActivity is the method in the object of the JAVA code
             addAerobicActivity.addEventListener("click",function() {
-                window.addToDb.addActivity(document.querySelector("#AerobicActivity").value);
+                window.addToDb.addActivity(document.querySelector("#AerobicActivity").value,document.querySelector("#lengthKm").value);
             });
 
             addAnAerobicActivity.addEventListener("click",function() {
-                window.addToDb.addActivity(document.querySelector("#AnaerobicActivity").value);
+                window.addToDb.addActivity(document.querySelector("#AnaerobicActivity").value,document.querySelector("#lengthMinutes").value);
             });
         }
     </script>
@@ -54,9 +54,17 @@
         <div class="ui-field-contain">
             <label for="aerobicActivity">Select aerobic activity:</label>
             <select name="aerobicActivity" id="AerobicActivity">
-                <option value="running">running</option>
-                <option value="swimming">swimming</option>
-                <option value="bicycle">bicycle</option>
+                <option value="1">running</option>
+                <option value="2">swimming</option>
+                <option value="3">bicycle</option>
+            </select>
+            <label for="lengthKm">km:</label>
+            <select name="length" id="lengthKm">
+                <option value="2">2</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
             </select>
         </div>
         <a href="" id="addAeActivity" class="ui-btn ui-corner-all">Submit</a>
@@ -75,10 +83,18 @@
         <div class="ui-field-contain">
             <label for="AnaerobicActivity">Select aerobic activity:</label>
             <select name="AnaerobicActivity" id="AnaerobicActivity">
-                <option value="weights">weights</option>
-                <option value="legs">legs</option>
-                <option value="back">back</option>
-                <option value="shoulders">shoulders</option>
+                <option value="4">chest</option>
+                <option value="5">back</option>
+                <option value="6">legs</option>
+            </select>
+            <label for="lengthMinutes">minutes:</label>
+            <select name="lengthMinutes" id="lengthMinutes">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+                <option value="30">30</option>
             </select>
         </div>
         <a href="" id="addAnActivity" class="ui-btn ui-corner-all">Submit</a>

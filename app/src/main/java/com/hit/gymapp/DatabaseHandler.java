@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.widget.Toast;
+import java.sql.Timestamp;
+
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
@@ -92,20 +94,27 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //TODO modify this method. it puts values to the wrong table! need to change to Trainer_Activity table (T_A)
     /***
      * Adding a new activity to the DB
-     * @param activityCategory - activity's category
-     * @param activity - the activity
+     * @param userId - the id of the trainer
+     * @param activityId - id for activity to be added
+     * @param length - length in km/minuted depend on the activity id (aerobic/anaerobic)
      */
-    public void addActivity(int activityCategory, String activity)
+    public void addActivity(int userId, int activityId, int length)
     {
+        //timestamp the activity
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Long time = timestamp.getTime();
+
         //initialize ContentValues object
         ContentValues values = new ContentValues();
 
         //fill in the values
-        values.put(DatabaseHandler.Columns.A_COL_2, activityCategory);
-        values.put(DatabaseHandler.Columns.A_COL_3, activity);
+        values.put(Columns.T_A_COL_2, userId);
+        values.put(Columns.T_A_COL_3, activityId);
+        values.put(Columns.T_A_COL_4, time);
+        values.put(Columns.T_A_COL_5, length);
 
         //make the insertion to the db
-        if (db.insert(Tables.ACTIVITIES,null,values)!=-1)
+        if (db.insert(Tables.TRAINER_ACTIVITY,null,values)!=-1)
         {
             this.showToast(this.context,"Activity added");
         } else {
