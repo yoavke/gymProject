@@ -9,7 +9,8 @@
         var xhr = new XMLHttpRequest();
 
         on.load = function() {
-
+            xhr.abort()
+            xhr.
         }
     </script>
     <meta charset="UTF-8">
@@ -24,12 +25,15 @@
     </div>
     <div data-role="main" class="ui-content">
         <h2>List of all activites</h2>
+        <!-- for each activity - add links to delete/edit activity -->
+        <!--  edit popup a form, delete show activites after deletion -->
+        <!-- using ajax for both -->
         <p>
             Pick one of the links below:
-            <a href="browseAerobic.html" class="ui-btn ui-corner-all">Aerobics</a>
-            <a href="browseAnAerobic.html" class="ui-btn ui-corner-all">Anaerobics</a>
+            <a href="#browseAerobic" id="ae" class="ui-btn ui-corner-all">Aerobics</a>
+            <a href="#browseAnAerobic" id="anae" class="ui-btn ui-corner-all">Anaerobics</a>
         </p>
-        <a href="addActivity.html" class="ui-btn ui-corner-all" data-ajax="false">Add new activity</a>
+        <a href="browseActivity.html.html" class="ui-btn ui-corner-all" data-ajax="false">Browse</a>
     </div>
     <div data-role="footer">
         <h2 class="foot"></h2>
