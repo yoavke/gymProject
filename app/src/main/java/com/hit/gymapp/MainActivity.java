@@ -8,6 +8,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+
+//TODO add stack for history of pages
 public class MainActivity extends AppCompatActivity {
 
     public DatabaseHandler myDb;
