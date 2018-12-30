@@ -6,10 +6,22 @@
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script type="text/javascript" src="functions.js"></script>
     <script type="text/javascript">
-        <!-- //if user is logged out - transfer to login page
-        //TODO: uncomment the lines below
-        //authentication();
-        //-->
+        window.onload = function() {
+            //send 1 to browseActivites() method to retrieve only Aerobic activities
+            let json = JSON.parse(window.browseFromDb.browseActivities("1"));
+            let activities = json.activities;
+            for (let i = 0 ; i<activities.length;i++) {
+                let date = new Date(parseInt(activities[i].timestamp));
+                document.querySelector("#activityList").innerHTML += (i+1)+". "+activities[i].activity + " - " + date.getDate() +"/"+ date.getMonth() +"/"+ date.getFullYear()  + "<br />";
+            }
+
+
+            /*
+            getFullYear()
+            getDate() - day - plus 1
+            getMonth() - month - plus 1
+             */
+        }
     </script>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -18,15 +30,13 @@
 <div data-role="page">
     <div data-role="header">
         <h1>
-            Browse Activites
+            Browse Activities
         </h1>
     </div>
     <div data-role="main" class="ui-content">
         <h2>List of all activites</h2>
-        <p>
-            Use the menu below to choose which kind of activities to show.
-            <a href="browseAerobic.html" class="ui-btn ui-corner-all" data-ajax="false">Aerobics</a>
-            <a href="browseAnAerobic.html" class="ui-btn ui-corner-all" data-ajax="false">Anaerobics</a>
+        <p id="activityList">
+            Your aerobic list:<br />
         </p>
         <a href="addActivity.html" class="ui-btn ui-corner-all" data-ajax="false">Add new activity</a>
     </div>

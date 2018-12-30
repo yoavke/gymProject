@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         webby.setWebViewClient(new MyBrowser());
         webby.loadUrl("file:///android_asset/index.html");
         webby.addJavascriptInterface(new addInteraction(),"addToDb");
+        webby.addJavascriptInterface(new browseInteraction(),"browseFromDb");
     }
 
     private class MyBrowser extends WebViewClient
@@ -49,5 +50,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public class browseInteraction
+    {
+        @android.webkit.JavascriptInterface
+        public String browseActivities(String activityId)
+        {
+            //TODO add filter to filter out other accounts (user_id)
+            return myDb.browseActivities(Integer.parseInt(activityId));
+        }
+    }
 
 }
