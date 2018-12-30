@@ -41,7 +41,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         private static final String T_A_COL_2 = "trainer_id";
         private static final String T_A_COL_3 = "activity_id";
         private static final String T_A_COL_4 = "timestamp";
-        private static final String T_A_COL_5 = "minutes";
+        private static final String T_A_COL_5 = "length";
     }
 
     /***
