@@ -136,6 +136,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.delete(Tables.TRAINER_ACTIVITY,BaseColumns._ID+"=?",activities_to_delete);
     }
 
+    public String browseActivites(int activityCategory) {
+        return new String("hello");
+    }
+
     /***
      * Show Toast with specified string
      * @param context - the activity we use to show the Toast
