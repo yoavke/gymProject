@@ -7,12 +7,12 @@
     <script type="text/javascript" src="functions.js"></script>
     <script type="text/javascript">
         window.onload = function() {
-            //send 1 to browseActivites() method to retrieve only Aerobic activities
-            let json = JSON.parse(window.browseFromDb.browseActivities("1"));
+            //send 1 to browseActivites() method to retrieve only Anaerobic activities
+            let json = JSON.parse(window.browseFromDb.browseActivities("2"));
             let activities = json.activities;
             for (let i = 0 ; i<activities.length;i++) {
                 let date = new Date(parseInt(activities[i].timestamp));
-                document.querySelector("#activityList").innerHTML += (i+1)+". "+activities[i].activity + " - " + activities[i].length + " " +(activities[i].activity=='swimming'?"pools":"km") + " (" + date.getDate() +"/"+ date.getMonth() +"/"+ date.getFullYear() + ")<br />";
+                document.querySelector("#activityList").innerHTML += (i+1)+". "+activities[i].activity + " - " + activities[i].length + " min" + " (" + date.getDate() +"/"+ date.getMonth() +"/"+ date.getFullYear() + ")<br />";
             }
         }
     </script>
@@ -29,7 +29,7 @@
     <div data-role="main" class="ui-content">
         <h2>List of all activites</h2>
         <p id="activityList">
-            Your aerobic list:<br />
+            Your anaerobic list:<br />
         </p>
         <a href="addActivity.html" class="ui-btn ui-corner-all" data-ajax="false">Add new activity</a>
     </div>

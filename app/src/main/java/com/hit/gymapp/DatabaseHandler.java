@@ -127,15 +127,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @android.webkit.JavascriptInterface
     public String browseActivities(int activityId) {
-        //which category to search
-        String search;
-        if (activityId<4) {
-            //aerobic
-            search = "1";
-        } else {
-            //anaerobic
-            search = "2";
-        }
 
         //initialize JSON object to store the dataset of the query
         JSONObject json = new JSONObject();
@@ -145,7 +136,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //save the dataset inside a cursor
         //"SELECT "+BaseColumns._ID+",                              activity_id,timestamp,length,activity FROM "+Tables.TRAINER_ACTIVITY+" INNER JOIN Activities ON Trainer_Activity.activity_id=Activities._id WHERE "+Columns.T_A_COL_3+"=?",new String[] {search}
         //"SELECT "+BaseColumns._ID+",activity_id,timestamp,length,activity FROM "+Tables.TRAINER_ACTIVITY+" INNER JOIN Activities ON Trainer_Activity.activity_id=Activities._id WHERE "+Columns.T_A_COL_3+"=1",null
-        Cursor cursor = db.rawQuery("SELECT * FROM "+Tables.TRAINER_ACTIVITY+" INNER JOIN "+Tables.ACTIVITIES+" ON "+Tables.TRAINER_ACTIVITY+"."+Columns.T_A_COL_3+"="+Tables.ACTIVITIES+"."+BaseColumns._ID+" WHERE "+Tables.ACTIVITIES+"."+Columns.A_COL_2+"=?",new String[] {search});
+        Cursor cursor = db.rawQuery("SELECT * FROM "+Tables.TRAINER_ACTIVITY+" INNER JOIN "+Tables.ACTIVITIES+" ON "+Tables.TRAINER_ACTIVITY+"."+Columns.T_A_COL_3+"="+Tables.ACTIVITIES+"."+BaseColumns._ID+" WHERE "+Tables.ACTIVITIES+"."+Columns.A_COL_2+"=?",new String[] {String.valueOf(activityId)});
 
 
 
