@@ -136,7 +136,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //save the dataset inside a cursor
         //"SELECT "+BaseColumns._ID+",                              activity_id,timestamp,length,activity FROM "+Tables.TRAINER_ACTIVITY+" INNER JOIN Activities ON Trainer_Activity.activity_id=Activities._id WHERE "+Columns.T_A_COL_3+"=?",new String[] {search}
         //"SELECT "+BaseColumns._ID+",activity_id,timestamp,length,activity FROM "+Tables.TRAINER_ACTIVITY+" INNER JOIN Activities ON Trainer_Activity.activity_id=Activities._id WHERE "+Columns.T_A_COL_3+"=1",null
-        Cursor cursor = db.rawQuery("SELECT * FROM "+Tables.TRAINER_ACTIVITY+" INNER JOIN "+Tables.ACTIVITIES+" ON "+Tables.TRAINER_ACTIVITY+"."+Columns.T_A_COL_3+"="+Tables.ACTIVITIES+"."+BaseColumns._ID+" WHERE "+Tables.ACTIVITIES+"."+Columns.A_COL_2+"=?",new String[] {String.valueOf(activityId)});
+        Cursor cursor = db.rawQuery("SELECT Trainer_Activity._id as T_A_ID,Trainer_Activity.trainer_id,Trainer_Activity.activity_id,Trainer_Activity.timestamp,Trainer_Activity.length,Activities._id as A_ID,Activities.activity_category,Activities.activity FROM "+Tables.TRAINER_ACTIVITY+" INNER JOIN "+Tables.ACTIVITIES+" ON "+Tables.TRAINER_ACTIVITY+"."+Columns.T_A_COL_3+"="+Tables.ACTIVITIES+"."+BaseColumns._ID+" WHERE "+Tables.ACTIVITIES+"."+Columns.A_COL_2+"=?",new String[] {String.valueOf(activityId)});
 
 
 
@@ -144,7 +144,37 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         try {
             while (cursor.moveToNext()) {
                 JSONObject item = new JSONObject();
-                item.put(BaseColumns._ID,cursor.getString(cursor.getColumnIndex(BaseColumns._ID)));
+                item.put(BaseColumns._ID,cursor.getString(cursor.getColumnIndex("T_A_ID")));
+                item.put("activity_id",cursor.getString(cursor.getColumnIndex("activity_id")));
+                item.put("timestamp",cursor.getString(cursor.getColumnIndex("timestamp")));
+                item.put("length",cursor.getString(cursor.getColumnIndex("length")));
+                item.put("activity",cursor.getString(cursor.getColumnIndex("activity")));
+                arr.add(item);
+            }
+        } finally {
+            //close the cursor
+            cursor.close();
+        }
+
+        //return json format with all data from the database
+        return json.toJSONString();
+    }
+
+    public String selectDetails(int activityId)
+    {
+
+        //initialize JSON object to store the dataset of the query
+        JSONObject json = new JSONObject();
+        JSONArray arr = new JSONArray();
+        json.put("activities",arr);
+
+        Cursor cursor = db.rawQuery("SELECT Trainer_Activity._id as T_A_ID,Trainer_Activity.trainer_id,Trainer_Activity.activity_id,Trainer_Activity.timestamp,Trainer_Activity.length,Activities._id as A_ID,Activities.activity_category,Activities.activity FROM  "+Tables.TRAINER_ACTIVITY+" INNER JOIN "+Tables.ACTIVITIES+" ON "+Tables.TRAINER_ACTIVITY+"."+Columns.T_A_COL_3+"="+Tables.ACTIVITIES+"."+BaseColumns._ID+" WHERE Trainer_Activity._id=?",new String[] {String.valueOf(activityId)});
+
+        //looping through the cursor to put the data in the json
+        try {
+            while (cursor.moveToNext()) {
+                JSONObject item = new JSONObject();
+                item.put(BaseColumns._ID,cursor.getString(cursor.getColumnIndex("T_A_ID")));
                 item.put("activity_id",cursor.getString(cursor.getColumnIndex("activity_id")));
                 item.put("timestamp",cursor.getString(cursor.getColumnIndex("timestamp")));
                 item.put("length",cursor.getString(cursor.getColumnIndex("length")));

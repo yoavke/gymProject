@@ -2,6 +2,8 @@ package com.hit.gymapp;
 
 //TODO remove libraries I dont use
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebView;
@@ -14,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     public DatabaseHandler myDb;
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -27,8 +30,10 @@ public class MainActivity extends AppCompatActivity {
         webby.getSettings().setJavaScriptEnabled(true);
         webby.setWebViewClient(new MyBrowser());
         webby.loadUrl("file:///android_asset/index.html");
+        WebView.setWebContentsDebuggingEnabled(true);
         webby.addJavascriptInterface(new addInteraction(),"addToDb");
         webby.addJavascriptInterface(new browseInteraction(),"browseFromDb");
+        webby.addJavascriptInterface(new detailsInteraction(),"detailsFromDb");
     }
 
     private class MyBrowser extends WebViewClient
@@ -59,6 +64,16 @@ public class MainActivity extends AppCompatActivity {
         {
             //TODO add filter to filter out other accounts (user_id)
             return myDb.browseActivities(Integer.parseInt(activityId));
+        }
+    }
+
+    public class detailsInteraction
+    {
+        @android.webkit.JavascriptInterface
+        public String selectDetails(int activityId)
+        {
+            //TODO add filter to filter out other accounts (user_id)
+            return myDb.selectDetails(activityId);
         }
     }
 

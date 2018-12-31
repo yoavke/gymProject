@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" src="functions.js"></script>
+    <script type="text/javascript">
+        const urlParams = new URLSearchParams(window.location.search);
+        const activityId = parseInt(urlParams.get('activityId'));
+        var json;
+        var activities;
+        window.onload = function() {
+            json = JSON.parse(window.detailsFromDb.selectDetails(activityId));
+            activities = json.activities;
+            let date = new Date(parseInt(activities[0].timestamp));
+            document.querySelector("#details").innerHTML += "<h2>" +activities[0].activity+ " (" + date.getDate() +"/"+ date.getMonth() +"/"+ date.getFullYear() + ")</h2>";
+            document.querySelector("#details").innerHTML += "<p>"+activities[0].length + " " + (activities[0].activity=='swimming'?"pools":"km") + "edit</a> | delete</p>";
+        }
+    </script>
+    <meta charset="UTF-8">
+    <title>Android Project</title>
+</head>
+<body>
+<div data-role="page">
+    <div data-role="header">
+        <h1>
+            Activity details:
+        </h1>
+    </div>
+    <div data-role="main" class="ui-content">
+        <p>
+            Details about the activity<br>
+            <div id="details"></div>
+        </p>
+        <a href="file:///android_asset/addActivity.html" class="ui-btn" data-ajax="false">Add new activity</a>
+        <a href="browseActivity.html" class="ui-btn" data-ajax="false">Browse activities</a>
+        <a href="myGraphs.html" class="ui-btn" data-ajax="false">Show my graphs</a>
+    </div>
+    <div data-role="footer">
+        <h2 class="foot"></h2>
+    </div>
+</div>
+</body>
+</html>
