@@ -2,19 +2,24 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.js"></script>
     <script type="text/javascript" src="functions.js"></script>
     <script type="text/javascript">
         window.onload = function() {
             //send 1 to browseActivites() method to retrieve only Aerobic activities
-            let json = JSON.parse(window.browseFromDb.browseActivities("1"));
-            let activities = json.activities;
+            var json = JSON.parse(window.browseFromDb.browseActivities("1"));
+            var activities = json.activities;
             for (let i = 0 ; i<activities.length;i++) {
                 let date = new Date(parseInt(activities[i].timestamp));
-                document.querySelector("#activityList").innerHTML += (i+1)+". "+activities[i].activity + " - " + activities[i].length + " " +(activities[i].activity=='swimming'?"pools":"km") + " (" + date.getDate() +"/"+ date.getMonth() +"/"+ date.getFullYear() + ")<br />";
+                document.querySelector("#activityList").innerHTML += "<div data-role='collapsible' class='coll'>";
+                document.querySelector("#activityList").innerHTML += "<h3>"+(i+1)+". "+activities[i].activity+ " (" + date.getDate() +"/"+ date.getMonth() +"/"+ date.getFullYear() + ")</h3>";
+                document.querySelector("#activityList").innerHTML += "<p>"+activities[i].length + " " + (activities[i].activity=='swimming'?"pools":"km") + " edit | delete</p>";
+                document.querySelector("#activityList").innerHTML += "</div>";
             }
+            $( "#activityList" ).collapsibleset( "refresh" );
         }
+
     </script>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -27,10 +32,8 @@
         </h1>
     </div>
     <div data-role="main" class="ui-content">
-        <h2>List of all activites</h2>
-        <p id="activityList">
-            Your aerobic list:<br />
-        </p>
+        <h2>Your aerobic list:</h2>
+        <div data-role="collapsible-set" id="activityList"></div>
         <a href="addActivity.html" class="ui-btn ui-corner-all" data-ajax="false">Add new activity</a>
     </div>
     <div data-role="footer">
