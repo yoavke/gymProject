@@ -58,13 +58,19 @@
                 <option value="2">swimming</option>
                 <option value="3">bicycle</option>
             </select>
+            <!-- change the label dynamically km for running and bicycle, pools for swim //-->
             <label for="lengthKm">km:</label>
             <select name="length" id="lengthKm">
-                <option value="2">2</option>
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
+                <script type="text/javascript">
+                    for (let i=1; i<=40 ; i++)
+                    {
+                        let select = document.querySelector("#lengthKm");
+                        let option = document.createElement("OPTION");
+                        option.innerText=i;
+                        option.value = i;
+                        select.appendChild(option);
+                    }
+                </script>
             </select>
         </div>
         <a href="" id="addAeActivity" class="ui-btn ui-corner-all">Submit!</a>
@@ -90,12 +96,16 @@
             </select>
             <label for="lengthMinutes">minutes:</label>
             <select name="lengthMinutes" id="lengthMinutes">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-                <option value="25">25</option>
-                <option value="30">30</option>
+                <script type="text/javascript">
+                    for (let i=1; i<=60 ; i++)
+                    {
+                        let select = document.querySelector("#lengthMinutes");
+                        let option = document.createElement("OPTION");
+                        option.innerText=i;
+                        option.value = i;
+                        select.appendChild(option);
+                    }
+                </script>
             </select>
         </div>
         <a href="" id="addAnActivity" class="ui-btn ui-corner-all">Submit!</a>
