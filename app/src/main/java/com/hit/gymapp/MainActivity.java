@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         WebView webby = findViewById(R.id.myWebView);
         webby.getSettings().setJavaScriptEnabled(true);
+        webby.getSettings().setAllowUniversalAccessFromFileURLs(true);
         webby.setWebViewClient(new MyBrowser());
         webby.loadUrl("file:///android_asset/index.html");
         WebView.setWebContentsDebuggingEnabled(true);
@@ -76,5 +77,4 @@ public class MainActivity extends AppCompatActivity {
             return myDb.selectDetails(activityId);
         }
     }
-
 }

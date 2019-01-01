@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" src="functions.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div data-role="page" id="addAerobic">
+    <div data-role="header">
+        <h1>
+            Add Aerobic
+        </h1>
+    </div>
+    <div data-role="main" class="ui-content">
+        <div class="ui-field-contain">
+            <label for="aerobicActivity">Select aerobic activity:</label>
+            <select name="aerobicActivity" id="AerobicActivity">
+                <option value="1">running</option>
+                <option value="2">swimming</option>
+                <option value="3">bicycle</option>
+            </select>
+            <!-- change the label dynamically km for running and bicycle, pools for swim //-->
+            <label for="lengthKm">km:</label>
+            <select name="length" id="lengthKm">
+                <script type="text/javascript">
+                    for (let i=1; i<=40 ; i++)
+                    {
+                        let select = document.querySelector("#lengthKm");
+                        let option = document.createElement("OPTION");
+                        option.innerText=i;
+                        option.value = i;
+                        select.appendChild(option);
+                    }
+                </script>
+            </select>
+        </div>
+        <a href="" id="addAeActivity" class="ui-btn ui-corner-all">Submit!</a>
+        <a href="browseActivity.html" data-ajax="false" class="ui-btn ui-corner-all">Browse activities</a>
+        <script type="text/javascript">
+            setTimeout(retrieve,10);
+        </script>
+    </div>
+    <div data-role="footer">
+        <h2 class="foot"></h2>
+    </div>
+</div>
+</body>
+</html>

@@ -36,80 +36,9 @@
         <h2>Add new activity</h2>
         <!-- TODO: send data to Java code which connect to the DB //-->
         <form type="post" action="login.html">
-            <a href="#addAerobic" class="ui-btn ui-corner-all">Add Aerobic Activity!</a>
-            <a href="#addAnAerobic" class="ui-btn ui-corner-all">Add Anaerobic Activity!</a>
+            <a href="addAerobic.html" class="ui-btn ui-corner-all">Add Aerobic Activity!</a>
+            <a href="addAnAerobic.html" class="ui-btn ui-corner-all">Add Anaerobic Activity!</a>
         </form>
-    </div>
-    <div data-role="footer">
-        <h2 class="foot"></h2>
-    </div>
-</div>
-<div data-role="page" id="addAerobic">
-    <div data-role="header">
-        <h1>
-            Add Aerobic
-        </h1>
-    </div>
-    <div data-role="main" class="ui-content">
-        <div class="ui-field-contain">
-            <label for="aerobicActivity">Select aerobic activity:</label>
-            <select name="aerobicActivity" id="AerobicActivity">
-                <option value="1">running</option>
-                <option value="2">swimming</option>
-                <option value="3">bicycle</option>
-            </select>
-            <!-- change the label dynamically km for running and bicycle, pools for swim //-->
-            <label for="lengthKm">km:</label>
-            <select name="length" id="lengthKm">
-                <script type="text/javascript">
-                    for (let i=1; i<=40 ; i++)
-                    {
-                        let select = document.querySelector("#lengthKm");
-                        let option = document.createElement("OPTION");
-                        option.innerText=i;
-                        option.value = i;
-                        select.appendChild(option);
-                    }
-                </script>
-            </select>
-        </div>
-        <a href="" id="addAeActivity" class="ui-btn ui-corner-all">Submit!</a>
-        <a href="browseActivity.html" data-ajax="false" class="ui-btn ui-corner-all">Browse activities</a>
-    </div>
-    <div data-role="footer">
-        <h2 class="foot"></h2>
-    </div>
-</div>
-<div data-role="page" id="addAnAerobic">
-    <div data-role="header">
-        <h1>
-            Add Anaerobic
-        </h1>
-    </div>
-    <div data-role="main" class="ui-content">
-        <div class="ui-field-contain">
-            <label for="AnaerobicActivity">Select aerobic activity:</label>
-            <select name="AnaerobicActivity" id="AnaerobicActivity">
-                <option value="4">chest</option>
-                <option value="5">back</option>
-                <option value="6">legs</option>
-            </select>
-            <label for="lengthMinutes">minutes:</label>
-            <select name="lengthMinutes" id="lengthMinutes">
-                <script type="text/javascript">
-                    for (let i=1; i<=60 ; i++)
-                    {
-                        let select = document.querySelector("#lengthMinutes");
-                        let option = document.createElement("OPTION");
-                        option.innerText=i;
-                        option.value = i;
-                        select.appendChild(option);
-                    }
-                </script>
-            </select>
-        </div>
-        <a href="" id="addAnActivity" class="ui-btn ui-corner-all">Submit!</a>
-        <a href="browseActivity.html" data-ajax="false" class="ui-btn ui-corner-all">Browse activities</a>
     </div>
     <div data-role="footer">
         <h2 class="foot"></h2>

@@ -1,21 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script type="text/javascript" src="functions.js"></script>
-    <script type="text/javascript">
-        window.onload = function() {
-            //send 1 to browseActivites() method to retrieve only Anaerobic activities
-            let json = JSON.parse(window.browseFromDb.browseActivities("2"));
-            let activities = json.activities;
-            for (let i = 0 ; i<activities.length;i++) {
-                let date = new Date(parseInt(activities[i].timestamp));
-                document.querySelector("#activityList").innerHTML += (i+1)+". "+activities[i].activity + " - " + activities[i].length + " min" + " (" + date.getDate() +"/"+ date.getMonth() +"/"+ date.getFullYear() + ")<br />";
-            }
-        }
-    </script>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
@@ -32,6 +18,9 @@
             Your anaerobic list:<br />
         </p>
         <a href="addActivity.html" class="ui-btn ui-corner-all" data-ajax="false">Add new activity</a>
+        <script type="text/javascript">
+            setTimeout(retrieve,10);
+        </script>
     </div>
     <div data-role="footer">
         <h2 class="foot"></h2>

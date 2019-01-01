@@ -5,24 +5,6 @@
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.js"></script>
     <script type="text/javascript" src="functions.js"></script>
-    <script type="text/javascript">
-        var json;
-        var activities;
-        window.onload = function() {
-            //send 1 to browseActivites() method to retrieve only Aerobic activities
-            json = JSON.parse(window.browseFromDb.browseActivities("1"));
-            activities = json.activities;
-            for (let i = 0 ; i<activities.length;i++) {
-                let date = new Date(parseInt(activities[i].timestamp));
-                document.querySelector("#activityList").innerHTML += "<div data-role='collapsible' class='coll'>";
-                document.querySelector("#activityList").innerHTML += "<h3>"+(i+1)+". "+activities[i].activity+ " (" + date.getDate() +"/"+ date.getMonth() +"/"+ date.getFullYear() + ")</h3>";
-                document.querySelector("#activityList").innerHTML += activities[i].length + " " + (activities[i].activity=='swimming'?"pools":"km") + " <a href='details.html?activityId="+activities[i]._id+"' data-ajax='false'>details</a></p>";
-                document.querySelector("#activityList").innerHTML += "</div>";
-            }
-            $( "#activityList" ).collapsibleset( "refresh" );
-        }
-
-    </script>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
@@ -36,7 +18,10 @@
     <div data-role="main" class="ui-content">
         <h2>Your aerobic list:</h2>
         <div data-role="collapsible-set" id="activityList"></div>
-        <a href="addActivity.html" class="ui-btn ui-corner-all" data-ajax="false">Add new activity</a>
+        <a href="addActivity.html" class="ui-btn ui-corner-all">Add new activity</a>
+        <script type="text/javascript">
+            setTimeout(retrieve,10);
+        </script>
     </div>
     <div data-role="footer">
         <h2 class="foot"></h2>

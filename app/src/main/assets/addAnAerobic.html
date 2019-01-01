@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" src="functions.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div data-role="page" id="addAnAerobic">
+    <div data-role="header">
+        <h1>
+            Add Anaerobic
+        </h1>
+    </div>
+    <div data-role="main" class="ui-content">
+        <div class="ui-field-contain">
+            <label for="AnaerobicActivity">Select aerobic activity:</label>
+            <select name="AnaerobicActivity" id="AnaerobicActivity">
+                <option value="4">chest</option>
+                <option value="5">back</option>
+                <option value="6">legs</option>
+            </select>
+            <label for="lengthMinutes">minutes:</label>
+            <select name="lengthMinutes" id="lengthMinutes">
+                <script type="text/javascript">
+                    for (let i=1; i<=60 ; i++)
+                    {
+                        let select = document.querySelector("#lengthMinutes");
+                        let option = document.createElement("OPTION");
+                        option.innerText=i;
+                        option.value = i;
+                        select.appendChild(option);
+                    }
+                </script>
+            </select>
+        </div>
+        <a href="" id="addAnActivity" class="ui-btn ui-corner-all">Submit!</a>
+        <a href="browseActivity.html" data-ajax="false" class="ui-btn ui-corner-all">Browse activities</a>
+        <script type="text/javascript">
+            setTimeout(retrieve,100);
+        </script>
+    </div>
+    <div data-role="footer">
+        <h2 class="foot"></h2>
+    </div>
+</div>
+</body>
+</html>
