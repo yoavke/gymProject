@@ -32,12 +32,18 @@ function authentication()
 
 window.onload = function ()
 {
-    //handle the footer
-    let my_foot = document.querySelector(".foot");
-    my_foot.innerHTML = '<a href="index.html" data-ajax="false">Go Home</a> HIT Project - Yoav Keren';
+
 }
 
 function retrieve() {
+
+    //handle the footer
+    let my_foot = document.querySelectorAll(".ui-footer.ui-bar-inherit");
+    for (let i=0;i<my_foot.length;i++) {
+        my_foot[i].innerHTML = '<a href="index.html" data-ajax="false">Go Home</a> HIT Project - Yoav Keren';
+    }
+
+
     //return current page
     let pathname = window.location.pathname;
     let page = pathname.slice(15);
@@ -63,7 +69,7 @@ function retrieve() {
         activities = json.activities;
         for (let i = 0 ; i<activities.length;i++) {
             let date = new Date(parseInt(activities[i].timestamp));
-            document.querySelector("#activityList").innerHTML += (i+1)+". "+activities[i].activity + " - " + activities[i].length + " min" + " (" + date.getDate() +"/"+ date.getMonth() +"/"+ date.getFullYear() + ")<br />";
+            document.querySelector("#activityList").innerHTML += (i+1)+". "+activities[i].activity + " - " + activities[i].length + " min" + " (" + date.getDate() +"/"+ (parseInt(date.getMonth())+1) +"/"+ date.getFullYear() + ")<br />";
         }
     }
     else if (page=="details.html") {
@@ -73,7 +79,7 @@ function retrieve() {
         json = JSON.parse(window.detailsFromDb.selectDetails(activityId));
         activities = json.activities;
         let date = new Date(parseInt(activities[0].timestamp));
-        document.querySelector("#details").innerHTML += "<h2>" +activities[0].activity+ " (" + date.getDate() +"/"+ date.getMonth() +"/"+ date.getFullYear() + ")</h2>";
+        document.querySelector("#details").innerHTML += "<h2>" +activities[0].activity+ " (" + date.getDate() +"/"+ (parseInt(date.getMonth())+1) +"/"+ date.getFullYear() + ")</h2>";
         document.querySelector("#details").innerHTML += "<p>"+activities[0].length + " " + (activities[0].activity=='swimming'?"pools":"km") + "edit</a> | delete</p>";
     } else if(page=='addAerobic.html') {
 
