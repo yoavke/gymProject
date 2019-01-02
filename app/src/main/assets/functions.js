@@ -40,7 +40,7 @@ function retrieve() {
     //handle the footer
     let my_foot = document.querySelectorAll(".ui-footer.ui-bar-inherit");
     for (let i=0;i<my_foot.length;i++) {
-        my_foot[i].innerHTML = '<a href="index.html" data-ajax="false">Go Home</a> HIT Project - Yoav Keren';
+        my_foot[i].innerHTML = '<a href="index.html">Go Home</a> HIT Project - Yoav Keren';
     }
 
 
