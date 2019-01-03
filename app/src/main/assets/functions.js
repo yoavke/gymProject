@@ -114,7 +114,11 @@ function retrieve() {
                 type : 'donut'
             },
             donut: {
-                title: "Aerobic this week (KM)"
+                title: "Aerobic this week (KM)",
+                label: {
+                    format: function(value, ratio, id) {
+                        return value+"km";
+                    }
             }
         };
 
