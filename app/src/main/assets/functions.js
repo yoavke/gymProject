@@ -119,6 +119,7 @@ function retrieve() {
                     format: function(value, ratio, id) {
                         return value+"km";
                     }
+                }
             }
         };
 
