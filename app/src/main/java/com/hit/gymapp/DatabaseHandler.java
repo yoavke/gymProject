@@ -9,6 +9,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.widget.Toast;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -189,6 +196,58 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //return json format with all data from the database
         return json.toJSONString();
     }
+
+    public String selectCharts(int category)
+    {
+        long millisecondsPerDay = 86400000; //how many milliseconds in a day
+        long subToSundayMidnight = 0;       //how many days I need to substract from today
+        long sundayMidnight;                //millisecond on last Sunday's night
+
+        //1 - sun 7 - sat
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+        //get milliseconds of today's midnight
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        long todayMidnight = c.getTimeInMillis();
+
+        //set how many days I need to substract
+        for (int i=0;i<dayOfWeek;i++) {
+            subToSundayMidnight += 1;
+        }
+
+        //select where timestamp is greater than this value
+        sundayMidnight = todayMidnight - (subToSundayMidnight*millisecondsPerDay);
+
+        //initialize JSON object to store the dataset of the query
+        JSONObject json = new JSONObject();
+        JSONArray arr = new JSONArray();
+        json.put("activities",arr);
+
+        Cursor cursor = db.rawQuery("SELECT sum(length) as km,activity_id,Activities.activity as activity FROM Trainer_Activity INNER JOIN Activities ON Activities._id=Trainer_Activity.activity_id WHERE timestamp>1546202481487 AND activity_id<4 GROUP BY activity_id",null);
+
+        //looping through the cursor to put the data in the json
+        try {
+            while (cursor.moveToNext()) {
+                JSONObject item = new JSONObject();
+                item.put("km",cursor.getString(cursor.getColumnIndex("km")));
+                item.put("activity_id",cursor.getString(cursor.getColumnIndex("activity_id")));
+                item.put("activity",cursor.getString(cursor.getColumnIndex("activity")));
+                arr.add(item);
+            }
+        } finally {
+            //close the cursor
+            cursor.close();
+        }
+
+        //return json format with all data from the database
+        return json.toJSONString();
+    }
+
 
     //TODO implement deletion method
     /***

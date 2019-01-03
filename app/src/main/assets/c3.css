@@ -1,4 +1,9 @@
 /*-- Chart --*/
+#pieChart{
+  width: 100%;
+  min-height: 400px;
+}
+
 .c3 svg {
   font: 10px sans-serif;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);

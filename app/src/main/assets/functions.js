@@ -101,7 +101,51 @@ function retrieve() {
         addAnAerobicActivity.addEventListener("click",function() {
             window.addToDb.addActivity(document.querySelector("#AnaerobicActivity").value,document.querySelector("#lengthMinutes").value);
         });
+    } else if (page=='myGraphs.html') {
+        json = JSON.parse(window.kmFromDb.selectKm(1));
+        activities = json.activities;
+
+        var obj = {
+            bindto: '#chart',
+            data: {
+                columns: [
+
+                ],
+                type : 'donut'
+            },
+            donut: {
+                title: "Aerobic this week (KM)"
+            }
+        };
+
+        for (let i=0;i<activities.length;i++)
+        {
+            let arr = [activities[i].activity, activities[i].km];
+            console.log(arr);
+            obj.data.columns.push(arr);
+        }
+
+        obj.data.columns.push()
+
+        var chart = c3.generate(obj);
+
+        //get the size of the window and set it to be the width of the chart
+        setTimeout(function () {
+            let pageWidth = getWidth() - 40;
+            chart.resize({width:pageWidth})
+        }, 100);
     }
 
-    return page;
+    return obj;
+}
+
+//get the width of the screen
+function getWidth() {
+    return Math.max(
+        document.body.scrollWidth,
+        document.documentElement.scrollWidth,
+        document.body.offsetWidth,
+        document.documentElement.offsetWidth,
+        document.documentElement.clientWidth
+    );
 }

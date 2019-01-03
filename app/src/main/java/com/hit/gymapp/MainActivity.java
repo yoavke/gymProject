@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         webby.addJavascriptInterface(new addInteraction(),"addToDb");
         webby.addJavascriptInterface(new browseInteraction(),"browseFromDb");
         webby.addJavascriptInterface(new detailsInteraction(),"detailsFromDb");
+        webby.addJavascriptInterface(new kmInteraction(),"kmFromDb");
     }
 
     private class MyBrowser extends WebViewClient
@@ -75,6 +76,16 @@ public class MainActivity extends AppCompatActivity {
         {
             //TODO add filter to filter out other accounts (user_id)
             return myDb.selectDetails(activityId);
+        }
+    }
+
+    public class kmInteraction
+    {
+        @android.webkit.JavascriptInterface
+        public String selectKm(int activityId)
+        {
+            //TODO add filter to filter out other accounts (user_id)
+            return myDb.selectCharts(activityId);
         }
     }
 }
