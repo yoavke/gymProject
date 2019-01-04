@@ -10,7 +10,6 @@ import android.widget.Toast;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.TimeZone;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -165,6 +164,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public String selectDetails(int activityId)
     {
 
+
         //initialize JSON object to store the dataset of the query
         JSONObject json = new JSONObject();
         JSONArray arr = new JSONArray();
@@ -223,13 +223,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         JSONArray arr = new JSONArray();
         json.put("activities",arr);
 
-        Cursor cursor = db.rawQuery("SELECT sum(length) as km,activity_id,Activities.activity as activity FROM Trainer_Activity INNER JOIN Activities ON Activities._id=Trainer_Activity.activity_id WHERE timestamp>1546202481487 AND activity_id<4 GROUP BY activity_id",null);
+        String length = new String((category==1)?"km":"minutes");
+
+        //Selecting data from db
+        Cursor cursor = db.rawQuery("SELECT sum(length) as "+length+",activity_id,Activities.activity as activity FROM Trainer_Activity INNER JOIN Activities ON Activities._id=Trainer_Activity.activity_id WHERE timestamp>"+sundayMidnight+" AND Activities.activity_category="+category+" GROUP BY activity_id",null);
 
         //looping through the cursor to put the data in the json
         try {
             while (cursor.moveToNext()) {
                 JSONObject item = new JSONObject();
-                item.put("km",cursor.getString(cursor.getColumnIndex("km")));
+                item.put(length,cursor.getString(cursor.getColumnIndex(length)));
                 item.put("activity_id",cursor.getString(cursor.getColumnIndex("activity_id")));
                 item.put("activity",cursor.getString(cursor.getColumnIndex("activity")));
                 arr.add(item);
