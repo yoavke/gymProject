@@ -85,7 +85,7 @@ function retrieve() {
         activities = json.activities;
         let date = new Date(parseInt(activities[0].timestamp));
         document.querySelector("#details").innerHTML += "<h2>" +activities[0].activity+ " (" + date.getDate() +"/"+ (parseInt(date.getMonth())+1) +"/"+ date.getFullYear() + ")</h2>";
-        document.querySelector("#details").innerHTML += "<p>"+activities[0].length + " " + (activities[0].activity=='swimming'?"pools":"km") + "edit</a> | delete</p>";
+        document.querySelector("#details").innerHTML += "<p>"+activities[0].length + " " + (activities[0].activity=='swimming'?"pools":"km") + " <a href=''>edit</a> | <a href=''>delete</a></p>";
     }
     else if(page=='addAerobic.html') {
 
