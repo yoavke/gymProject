@@ -19,18 +19,18 @@
         <div class="ui-field-contain">
             <label for="AnaerobicActivity">Select aerobic activity:</label>
             <select name="AnaerobicActivity" id="AnaerobicActivity">
-                <option value="4">chest</option>
-                <option value="5">back</option>
-                <option value="6">legs</option>
+                <option value="4">Chest</option>
+                <option value="5">Back</option>
+                <option value="6">Legs</option>
             </select>
-            <label for="lengthMinutes">minutes:</label>
+            <label for="lengthMinutes">How long</label>
             <select name="lengthMinutes" id="lengthMinutes">
                 <script type="text/javascript">
                     for (let i=1; i<=60 ; i++)
                     {
                         let select = document.querySelector("#lengthMinutes");
                         let option = document.createElement("OPTION");
-                        option.innerText=i;
+                        option.innerText=i+" minutes";
                         option.value = i;
                         select.appendChild(option);
                     }

@@ -59,7 +59,7 @@ function retrieve() {
             let date = new Date(parseInt(activities[i].timestamp));
             document.querySelector("#activityList").innerHTML += "<div data-role='collapsible' class='coll'>";
             document.querySelector("#activityList").innerHTML += "<h3>"+(i+1)+". "+activities[i].activity+ " (" + date.getDate() +"/"+ (parseInt(date.getMonth())+1) +"/"+ date.getFullYear() + ")</h3>";
-            document.querySelector("#activityList").innerHTML += activities[i].length + " " + (activities[i].activity=='swimming'?"pools":"km") + " <a href='details.html?activityId="+activities[i]._id+"'>details</a></p>";
+            document.querySelector("#activityList").innerHTML += activities[i].length + "KM" + " <a href='details.html?activityId="+activities[i]._id+"'>details</a></p>";
             document.querySelector("#activityList").innerHTML += "</div>";
         }
         $( "#activityList" ).collapsibleset( "refresh" );
@@ -105,7 +105,8 @@ function retrieve() {
         json = JSON.parse(window.kmFromDb.selectKm(1));
         activities = json.activities;
 
-        var obj = {
+        //chart raw object
+        let obj = {
             bindto: '#chart',
             data: {
                 columns: [
@@ -132,7 +133,8 @@ function retrieve() {
 
         obj.data.columns.push()
 
-        var chart = c3.generate(obj);
+        //generate the chart
+        let chart = c3.generate(obj);
 
         //get the size of the window and set it to be the width of the chart
         setTimeout(function () {
@@ -140,8 +142,6 @@ function retrieve() {
             chart.resize({width:pageWidth})
         }, 100);
     }
-
-    return obj;
 }
 
 //get the width of the screen

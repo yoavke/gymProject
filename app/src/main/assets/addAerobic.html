@@ -19,19 +19,19 @@
         <div class="ui-field-contain">
             <label for="aerobicActivity">Select aerobic activity:</label>
             <select name="aerobicActivity" id="AerobicActivity">
-                <option value="1">running</option>
-                <option value="2">swimming</option>
-                <option value="3">bicycle</option>
+                <option value="1">Running</option>
+                <option value="2">Swimming</option>
+                <option value="3">Bicycling</option>
             </select>
             <!-- change the label dynamically km for running and bicycle, pools for swim //-->
-            <label for="lengthKm">km:</label>
+            <label for="lengthKm">How long</label>
             <select name="length" id="lengthKm">
                 <script type="text/javascript">
                     for (let i=1; i<=40 ; i++)
                     {
                         let select = document.querySelector("#lengthKm");
                         let option = document.createElement("OPTION");
-                        option.innerText=i;
+                        option.innerText=i+" km";
                         option.value = i;
                         select.appendChild(option);
                     }
