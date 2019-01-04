@@ -63,14 +63,19 @@ function retrieve() {
             document.querySelector("#activityList").innerHTML += "</div>";
         }
         $( "#activityList" ).collapsibleset( "refresh" );
-    } else if (page=='browseAnaerobic.html') {
-        //send 1 to browseActivites() method to retrieve only Anaerobic activities
+    }
+    else if (page=='browseAnaerobic.html') {
+        //send 2 to browseActivites() method to retrieve only Aerobic activities
         json = JSON.parse(window.browseFromDb.browseActivities("2"));
         activities = json.activities;
         for (let i = 0 ; i<activities.length;i++) {
             let date = new Date(parseInt(activities[i].timestamp));
-            document.querySelector("#activityList").innerHTML += (i+1)+". "+activities[i].activity + " - " + activities[i].length + " minutes" + " (" + date.getDate() +"/"+ (parseInt(date.getMonth())+1) +"/"+ date.getFullYear() + ")<br />";
+            document.querySelector("#activityList").innerHTML += "<div data-role='collapsible' class='coll'>";
+            document.querySelector("#activityList").innerHTML += "<h3>"+(i+1)+". "+activities[i].activity+ " (" + date.getDate() +"/"+ (parseInt(date.getMonth())+1) +"/"+ date.getFullYear() + ")</h3>";
+            document.querySelector("#activityList").innerHTML += activities[i].length + " KM" + " <a href='details.html?activityId="+activities[i]._id+"'>details</a></p>";
+            document.querySelector("#activityList").innerHTML += "</div>";
         }
+        $( "#activityList" ).collapsibleset( "refresh" );
     }
     else if (page=="details.html") {
         const urlParams = new URLSearchParams(window.location.search);
