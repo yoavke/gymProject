@@ -52,148 +52,165 @@ function retrieve() {
     var activities;
 
     if (page == 'browseAerobic.html') {
-        //send 1 to browseActivites() method to retrieve only Aerobic activities
-        json = JSON.parse(window.browseFromDb.browseActivities("1"));
-        activities = json.activities;
-        for (let i = 0 ; i<activities.length;i++) {
-            let date = new Date(parseInt(activities[i].timestamp));
-            document.querySelector("#activityList").innerHTML += "<div data-role='collapsible' class='coll'>";
-            document.querySelector("#activityList").innerHTML += "<h3>"+(i+1)+". "+activities[i].activity+ " (" + date.getDate() +"/"+ (parseInt(date.getMonth())+1) +"/"+ date.getFullYear() + ")</h3>";
-            document.querySelector("#activityList").innerHTML += activities[i].length + " KM" + " <a href='details.html?activityId="+activities[i]._id+"'>details</a></p>";
-            document.querySelector("#activityList").innerHTML += "</div>";
-        }
-        $( "#activityList" ).collapsibleset( "refresh" );
+        browseAerobic();
     }
     else if (page=='browseAnaerobic.html') {
-        //send 2 to browseActivites() method to retrieve only Aerobic activities
-        json = JSON.parse(window.browseFromDb.browseActivities("2"));
-        activities = json.activities;
-        for (let i = 0 ; i<activities.length;i++) {
-            let date = new Date(parseInt(activities[i].timestamp));
-            document.querySelector("#activityList").innerHTML += "<div data-role='collapsible' class='coll'>";
-            document.querySelector("#activityList").innerHTML += "<h3>"+(i+1)+". "+activities[i].activity+ " (" + date.getDate() +"/"+ (parseInt(date.getMonth())+1) +"/"+ date.getFullYear() + ")</h3>";
-            document.querySelector("#activityList").innerHTML += activities[i].length + " KM" + " <a href='details.html?activityId="+activities[i]._id+"'>details</a></p>";
-            document.querySelector("#activityList").innerHTML += "</div>";
-        }
-        $( "#activityList" ).collapsibleset( "refresh" );
+        browseAnaerobic();
     }
     else if (page=="details.html") {
-        const urlParams = new URLSearchParams(window.location.search);
-        const activityId = parseInt(urlParams.get('activityId'));
-
-        json = JSON.parse(window.detailsFromDb.selectDetails(activityId));
-        activities = json.activities;
-        let date = new Date(parseInt(activities[0].timestamp));
-        document.querySelector("#details").innerHTML += "<h2>" +activities[0].activity+ " (" + date.getDate() +"/"+ (parseInt(date.getMonth())+1) +"/"+ date.getFullYear() + ")</h2>";
-        document.querySelector("#details").innerHTML += "<p>"+activities[0].length + " " + (activities[0].activity=='swimming'?"pools":"km") + " <a href=''>edit</a> | <a href=''>delete</a></p>";
+        details();
     }
     else if(page=='addAerobic.html') {
-
-        let addAerobicActivity = document.querySelector("#addAeActivity");
-
-        //interact with the JAVA code of the application
-        //addToDb property is the string we send from the JAVA code
-        //addActivity is the method in the object of the JAVA code
-        addAerobicActivity.addEventListener("click",function() {
-            window.addToDb.addActivity(document.querySelector("#AerobicActivity").value,document.querySelector("#lengthKm").value);
-        });
-
+        addAerobic();
     }
     else if (page == 'addAnAerobic.html') {
-        let addAnAerobicActivity = document.querySelector("#addAnActivity");
-
-        //interact with the JAVA code of the application
-        //addToDb property is the string we send from the JAVA code
-        //addActivity is the method in the object of the JAVA code
-        addAnAerobicActivity.addEventListener("click",function() {
-            window.addToDb.addActivity(document.querySelector("#AnaerobicActivity").value,document.querySelector("#lengthMinutes").value);
-        });
+        addAnAerobic();
     }
     else if (page=='myGraphs.html') {
-        //retrieve aerobic data
-        let jsonAerobic = JSON.parse(window.kmFromDb.selectKm(1));
-        let activitiesAerobic = jsonAerobic.activities;
-
-        //retrieve anaerobic data
-        let jsonAnAerobic = JSON.parse(window.kmFromDb.selectKm(2));
-        let activitiesAnAerobic = jsonAnAerobic.activities;
-
-        //aerobic chart raw object
-        let obj = {
-            bindto: '#chart',
-            data: {
-                columns: [
-
-                ],
-                type : 'donut'
-            },
-            donut: {
-                title: "Aerobic",
-                label: {
-                    format: function(value, ratio, id) {
-                        return value+"km";
-                    }
-                }
-            }
-        };
-
-        //anaerobic chart raw object
-        let obj2 = {
-            bindto: '#chartAn',
-            data: {
-                columns: [
-
-                ],
-                type : 'donut'
-            },
-            donut: {
-                title: "Anaerobic",
-                label: {
-                    format: function(value, ratio, id) {
-                        return value+"minutes";
-                    }
-                }
-            }
-        };
-
-
-        for (let i=0;i<activitiesAerobic.length;i++)
-        {
-            let arr = [activitiesAerobic[i].activity, activitiesAerobic[i].km];
-            obj.data.columns.push(arr);
-        }
-
-        for (let i = 0; i < activitiesAnAerobic.length; i++) {
-            let arr = [activitiesAnAerobic[i].activity, activitiesAnAerobic[i].minutes];
-            obj2.data.columns.push(arr);
-        }
-
-        //generate the chart
-        //show chart or error msg if no aerobic activities this week
-        if (activitiesAerobic.length==0) {
-            console.log("No aerobic activities this week");
-            document.querySelector("#chart").innerHTML = "<b>No aerobic activities this week</b>";
-        } else {
-            var chart = c3.generate(obj);
-        }
-
-        //generate the chart
-        //show chart or error msg if no anaerobic activities this week
-        if (activitiesAnAerobic.length==0) {
-            console.log("No anaerobic activities this week");
-            document.querySelector("#chartAn").innerHTML = "<b>No anaerobic activities this week</b>";
-
-        } else {
-            var chart2 = c3.generate(obj2);
-        }
-
-        //get the size of the window and set it to be the width of the chart
-        setTimeout(function () {
-            let pageWidth = getWidth() - 40;
-            chart.resize({width:pageWidth});
-            chart2.resize({width:pageWidth});
-        }, 100);
+        myGraphs();
     }
+}
+
+function browseAerobic() {
+    //send 1 to browseActivites() method to retrieve only Aerobic activities
+    json = JSON.parse(window.browseFromDb.browseActivities("1"));
+    activities = json.activities;
+    for (let i = 0 ; i<activities.length;i++) {
+        let date = new Date(parseInt(activities[i].timestamp));
+        document.querySelector("#activityList").innerHTML += "<div data-role='collapsible' class='coll'>";
+        document.querySelector("#activityList").innerHTML += "<h3>"+(i+1)+". "+activities[i].activity+ " (" + date.getDate() +"/"+ (parseInt(date.getMonth())+1) +"/"+ date.getFullYear() + ")</h3>";
+        document.querySelector("#activityList").innerHTML += activities[i].length + " KM" + " <a href='details.html?activityId="+activities[i]._id+"'>details</a></p>";
+        document.querySelector("#activityList").innerHTML += "</div>";
+    }
+    $( "#activityList" ).collapsibleset( "refresh" );
+}
+function browseAnaerobic() {
+    //send 2 to browseActivites() method to retrieve only Aerobic activities
+    json = JSON.parse(window.browseFromDb.browseActivities("2"));
+    activities = json.activities;
+    for (let i = 0 ; i<activities.length;i++) {
+        let date = new Date(parseInt(activities[i].timestamp));
+        document.querySelector("#activityList").innerHTML += "<div data-role='collapsible' class='coll'>";
+        document.querySelector("#activityList").innerHTML += "<h3>"+(i+1)+". "+activities[i].activity+ " (" + date.getDate() +"/"+ (parseInt(date.getMonth())+1) +"/"+ date.getFullYear() + ")</h3>";
+        document.querySelector("#activityList").innerHTML += activities[i].length + " KM" + " <a href='details.html?activityId="+activities[i]._id+"'>details</a></p>";
+        document.querySelector("#activityList").innerHTML += "</div>";
+    }
+    $( "#activityList" ).collapsibleset( "refresh" );
+}
+function details() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const activityId = parseInt(urlParams.get('activityId'));
+
+    json = JSON.parse(window.detailsFromDb.selectDetails(activityId));
+    activities = json.activities;
+    let date = new Date(parseInt(activities[0].timestamp));
+    document.querySelector("#details").innerHTML += "<h2>" +activities[0].activity+ " (" + date.getDate() +"/"+ (parseInt(date.getMonth())+1) +"/"+ date.getFullYear() + ")</h2>";
+    document.querySelector("#details").innerHTML += "<p>"+activities[0].length + " " + (activities[0].activity=='swimming'?"pools":"km") + " <a href=''>edit</a> | <a href=''>delete</a></p>";
+}
+function addAerobic() {
+    let addAerobicActivity = document.querySelector("#addAeActivity");
+
+    //interact with the JAVA code of the application
+    //addToDb property is the string we send from the JAVA code
+    //addActivity is the method in the object of the JAVA code
+    addAerobicActivity.addEventListener("click",function() {
+        window.addToDb.addActivity(document.querySelector("#AerobicActivity").value,document.querySelector("#lengthKm").value);
+    });
+}
+function addAnAerobic() {
+    let addAnAerobicActivity = document.querySelector("#addAnActivity");
+
+    //interact with the JAVA code of the application
+    //addToDb property is the string we send from the JAVA code
+    //addActivity is the method in the object of the JAVA code
+    addAnAerobicActivity.addEventListener("click",function() {
+        window.addToDb.addActivity(document.querySelector("#AnaerobicActivity").value,document.querySelector("#lengthMinutes").value);
+    });
+}
+function myGraphs() {
+    //retrieve aerobic data
+    let jsonAerobic = JSON.parse(window.kmFromDb.selectKm(1));
+    let activitiesAerobic = jsonAerobic.activities;
+
+    //retrieve anaerobic data
+    let jsonAnAerobic = JSON.parse(window.kmFromDb.selectKm(2));
+    let activitiesAnAerobic = jsonAnAerobic.activities;
+
+    //aerobic chart raw object
+    let obj = {
+        bindto: '#chart',
+        data: {
+            columns: [
+
+            ],
+            type : 'donut'
+        },
+        donut: {
+            title: "Aerobic",
+            label: {
+                format: function(value, ratio, id) {
+                    return value+"km";
+                }
+            }
+        }
+    };
+
+    //anaerobic chart raw object
+    let obj2 = {
+        bindto: '#chartAn',
+        data: {
+            columns: [
+
+            ],
+            type : 'donut'
+        },
+        donut: {
+            title: "Anaerobic",
+            label: {
+                format: function(value, ratio, id) {
+                    return value+"minutes";
+                }
+            }
+        }
+    };
+
+
+    for (let i=0;i<activitiesAerobic.length;i++)
+    {
+        let arr = [activitiesAerobic[i].activity, activitiesAerobic[i].km];
+        obj.data.columns.push(arr);
+    }
+
+    for (let i = 0; i < activitiesAnAerobic.length; i++) {
+        let arr = [activitiesAnAerobic[i].activity, activitiesAnAerobic[i].minutes];
+        obj2.data.columns.push(arr);
+    }
+
+    //generate the chart
+    //show chart or error msg if no aerobic activities this week
+    if (activitiesAerobic.length==0) {
+        console.log("No aerobic activities this week");
+        document.querySelector("#chart").innerHTML = "<b>No aerobic activities this week</b>";
+    } else {
+        var chart = c3.generate(obj);
+    }
+
+    //generate the chart
+    //show chart or error msg if no anaerobic activities this week
+    if (activitiesAnAerobic.length==0) {
+        console.log("No anaerobic activities this week");
+        document.querySelector("#chartAn").innerHTML = "<b>No anaerobic activities this week</b>";
+
+    } else {
+        var chart2 = c3.generate(obj2);
+    }
+
+    //get the size of the window and set it to be the width of the chart
+    setTimeout(function () {
+        let pageWidth = getWidth() - 40;
+        chart.resize({width:pageWidth});
+        chart2.resize({width:pageWidth});
+    }, 100);
 }
 
 //get the width of the screen
