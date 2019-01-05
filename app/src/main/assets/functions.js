@@ -110,9 +110,11 @@ function retrieve() {
         });
     }
     else if (page=='myGraphs.html') {
+        //retrieve aerobic data
         let jsonAerobic = JSON.parse(window.kmFromDb.selectKm(1));
         let activitiesAerobic = jsonAerobic.activities;
 
+        //retrieve anaerobic data
         let jsonAnAerobic = JSON.parse(window.kmFromDb.selectKm(2));
         let activitiesAnAerobic = jsonAnAerobic.activities;
 
@@ -154,25 +156,36 @@ function retrieve() {
             }
         };
 
+
         for (let i=0;i<activitiesAerobic.length;i++)
         {
             let arr = [activitiesAerobic[i].activity, activitiesAerobic[i].km];
-            console.log(arr);
             obj.data.columns.push(arr);
         }
 
-        for (let i=0;i<activitiesAnAerobic.length;i++)
-        {
+        for (let i = 0; i < activitiesAnAerobic.length; i++) {
             let arr = [activitiesAnAerobic[i].activity, activitiesAnAerobic[i].minutes];
-            console.log("error");
             obj2.data.columns.push(arr);
         }
 
         //generate the chart
-        let chart = c3.generate(obj);
+        //show chart or error msg if no aerobic activities this week
+        if (activitiesAerobic.length==0) {
+            console.log("No aerobic activities this week");
+            document.querySelector("#chart").innerHTML = "<b>No aerobic activities this week</b>";
+        } else {
+            var chart = c3.generate(obj);
+        }
 
         //generate the chart
-        let chart2 = c3.generate(obj2);
+        //show chart or error msg if no anaerobic activities this week
+        if (activitiesAnAerobic.length==0) {
+            console.log("No anaerobic activities this week");
+            document.querySelector("#chartAn").innerHTML = "<b>No anaerobic activities this week</b>";
+
+        } else {
+            var chart2 = c3.generate(obj2);
+        }
 
         //get the size of the window and set it to be the width of the chart
         setTimeout(function () {
