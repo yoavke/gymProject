@@ -1,55 +1,14 @@
-function loginQueryString()
-{
-    //get the querystring
-    const urlParams = new URLSearchParams(window.location.search);
-    const myParam = urlParams.get('action');
-
-    // login.html?action=logout - disconnect user from the app
-    if (myParam === 'logout')
-    {
-        //TODO: delete cookie and transfer to login with no query string
-    }
-}
-
-function authentication()
-{
-    //cookie of the user
-    let userCookie = document.cookie;
-
-    //page to get transferred if not logged in yet
-    let loginPage = "login.html";
-
-    //if user is not identified - transfer to login page
-    if (userCookie === "" || typeof userCookie !== "string")
-    {
-        //transfer to the login page
-        location.assign(loginPage);
-
-        //TODO: remove code below
-        //console.log("Cookie is empty or not a string");
-    }
-}
-
-window.onload = function ()
-{
-
-}
-
 function retrieve() {
 
-    //handle the footer
+    //set the footer
     let my_foot = document.querySelectorAll(".ui-footer.ui-bar-inherit");
     for (let i=0;i<my_foot.length;i++) {
         my_foot[i].innerHTML = '<a href="index.html">Go Home</a> HIT Project - Yoav Keren';
     }
 
-
     //return current page
     let pathname = window.location.pathname;
     let page = pathname.slice(15);
-
-    var json;
-    var activities;
 
     if (page == 'browseAerobic.html') {
         browseAerobic();
@@ -71,7 +30,11 @@ function retrieve() {
     }
 }
 
+//browse Aerobic activities
 function browseAerobic() {
+    let json;
+    let activities;
+
     //send 1 to browseActivites() method to retrieve only Aerobic activities
     json = JSON.parse(window.browseFromDb.browseActivities("1"));
     activities = json.activities;
@@ -84,7 +47,12 @@ function browseAerobic() {
     }
     $( "#activityList" ).collapsibleset( "refresh" );
 }
+
+//browse Anaerobic activities
 function browseAnaerobic() {
+    let json;
+    let activities;
+
     //send 2 to browseActivites() method to retrieve only Aerobic activities
     json = JSON.parse(window.browseFromDb.browseActivities("2"));
     activities = json.activities;
@@ -97,7 +65,12 @@ function browseAnaerobic() {
     }
     $( "#activityList" ).collapsibleset( "refresh" );
 }
+
+//show details about a particular activity
 function details() {
+    let json;
+    let activities;
+
     const urlParams = new URLSearchParams(window.location.search);
     const activityId = parseInt(urlParams.get('activityId'));
 
@@ -107,6 +80,8 @@ function details() {
     document.querySelector("#details").innerHTML += "<h2>" +activities[0].activity+ " (" + date.getDate() +"/"+ (parseInt(date.getMonth())+1) +"/"+ date.getFullYear() + ")</h2>";
     document.querySelector("#details").innerHTML += "<p>"+activities[0].length + " " + (activities[0].activity=='swimming'?"pools":"km") + " <a href=''>edit</a> | <a href=''>delete</a></p>";
 }
+
+//add a new aerobic activity to the database
 function addAerobic() {
     let addAerobicActivity = document.querySelector("#addAeActivity");
 
@@ -117,6 +92,8 @@ function addAerobic() {
         window.addToDb.addActivity(document.querySelector("#AerobicActivity").value,document.querySelector("#lengthKm").value);
     });
 }
+
+//add a new anaerobic activity to the database
 function addAnAerobic() {
     let addAnAerobicActivity = document.querySelector("#addAnActivity");
 
@@ -127,6 +104,8 @@ function addAnAerobic() {
         window.addToDb.addActivity(document.querySelector("#AnaerobicActivity").value,document.querySelector("#lengthMinutes").value);
     });
 }
+
+//show stats about the activities in the past week (starts on Sunday)
 function myGraphs() {
     //retrieve aerobic data
     let jsonAerobic = JSON.parse(window.kmFromDb.selectKm(1));
@@ -174,19 +153,19 @@ function myGraphs() {
         }
     };
 
-
+    //set columns in the aerobic chart
     for (let i=0;i<activitiesAerobic.length;i++)
     {
         let arr = [activitiesAerobic[i].activity, activitiesAerobic[i].km];
         obj.data.columns.push(arr);
     }
 
+    //set columns in the anaerobic chart
     for (let i = 0; i < activitiesAnAerobic.length; i++) {
         let arr = [activitiesAnAerobic[i].activity, activitiesAnAerobic[i].minutes];
         obj2.data.columns.push(arr);
     }
 
-    //generate the chart
     //show chart or error msg if no aerobic activities this week
     if (activitiesAerobic.length==0) {
         console.log("No aerobic activities this week");
@@ -195,7 +174,6 @@ function myGraphs() {
         var chart = c3.generate(obj);
     }
 
-    //generate the chart
     //show chart or error msg if no anaerobic activities this week
     if (activitiesAnAerobic.length==0) {
         console.log("No anaerobic activities this week");
