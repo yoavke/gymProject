@@ -169,6 +169,9 @@ function myGraphs() {
         obj2.data.columns.push(arr);
     }
 
+    console.log("chart aerobic: " + obj.bindto);
+    console.log("chart anaerobic: " + obj2.bindto);
+
     //show chart or error msg if no aerobic activities this week
     if (activitiesAerobic.length==0) {
         console.log("No aerobic activities this week");
