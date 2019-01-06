@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         webby.addJavascriptInterface(new browseInteraction(),"browseFromDb");
         webby.addJavascriptInterface(new detailsInteraction(),"detailsFromDb");
         webby.addJavascriptInterface(new kmInteraction(),"kmFromDb");
+        webby.addJavascriptInterface(new deleteInteraction(), "deleteActivityFromDb");
     }
 
     private class MyBrowser extends WebViewClient
@@ -86,6 +87,15 @@ public class MainActivity extends AppCompatActivity {
         {
             //TODO add filter to filter out other accounts (user_id)
             return myDb.selectCharts(activityId);
+        }
+    }
+
+    public class deleteInteraction {
+
+        @android.webkit.JavascriptInterface
+        public void deleteActivity(int activityId) {
+            //TODO add filter to filter out other accounts (user_id)
+            myDb.deleteActivity(activityId);
         }
     }
 }

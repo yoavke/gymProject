@@ -67,7 +67,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         this.db = this.getWritableDatabase();
     }
 
-
     @Override
     public void onCreate(SQLiteDatabase db)
     {
@@ -95,7 +94,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    //TODO modify this method. it puts values to the wrong table! need to change to Trainer_Activity table (T_A)
     /***
      * Adding a new activity to the DB
      * @param userId - the id of the trainer
@@ -126,7 +124,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
-    @android.webkit.JavascriptInterface
     public String browseActivities(int activityId) {
 
         //initialize JSON object to store the dataset of the query
@@ -211,7 +208,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         long todayMidnight = c.getTimeInMillis();
 
         //set how many days I need to substract
-        for (int i=0;i<dayOfWeek;i++) {
+        for (int i=1;i<dayOfWeek;i++) {
             subToSundayMidnight += 1;
         }
 
@@ -246,8 +243,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return json.toJSONString();
     }
 
-
-    //TODO implement deletion method
     /***
      * Removing a row with a specified ID from the DB
      * @param activityId - this id will be removed from the DB
@@ -257,12 +252,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //id to be removed from the DB
         String[] activities_to_delete = {String.valueOf(activityId)};
 
-        //make the deletion
-        db.delete(Tables.TRAINER_ACTIVITY,BaseColumns._ID+"=?",activities_to_delete);
-    }
-
-    public String browseActivites(int activityCategory) {
-        return new String("hello");
+        //make the deletion - show toast with msg
+        if (db.delete(Tables.TRAINER_ACTIVITY,BaseColumns._ID+"=?",activities_to_delete)==0) {
+            showToast(context,"Error: activity doesnt appear in the db");
+        } else {
+            showToast(context, "Successfully deleted");
+        }
     }
 
     /***
