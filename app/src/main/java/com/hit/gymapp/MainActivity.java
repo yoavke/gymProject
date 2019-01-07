@@ -26,19 +26,27 @@ public class MainActivity extends AppCompatActivity {
         //creating instance of DatabaseHelper to control the Database
         myDb = new DatabaseHandler(this);
 
+        //create webview
         WebView webby = findViewById(R.id.myWebView);
+
+        //set configuration for the webview object
         webby.getSettings().setJavaScriptEnabled(true);
         webby.getSettings().setAllowUniversalAccessFromFileURLs(true);
-        webby.setWebViewClient(new MyBrowser());
-        webby.loadUrl("file:///android_asset/index.html");
         WebView.setWebContentsDebuggingEnabled(true);
-        webby.addJavascriptInterface(new addInteraction(),"addToDb");
-        webby.addJavascriptInterface(new browseInteraction(),"browseFromDb");
-        webby.addJavascriptInterface(new detailsInteraction(),"detailsFromDb");
-        webby.addJavascriptInterface(new kmInteraction(),"kmFromDb");
-        webby.addJavascriptInterface(new deleteInteraction(), "deleteActivityFromDb");
+        webby.setWebViewClient(new MyBrowser());
+
+        //load main page and display it in the current activity
+        webby.loadUrl("file:///android_asset/index.html");
+
+        //add interactions with the js code (functions.js) to integrate with the DB
+        webby.addJavascriptInterface(new addInteraction(),"addToDb");                   //add activities
+        webby.addJavascriptInterface(new browseInteraction(),"browseFromDb");           //browse activities
+        webby.addJavascriptInterface(new detailsInteraction(),"detailsFromDb");         //get details about activitiy
+        webby.addJavascriptInterface(new kmInteraction(),"kmFromDb");                   //get details for charts
+        webby.addJavascriptInterface(new deleteInteraction(), "deleteActivityFromDb");  //delete activity
     }
 
+    //extend WebViewClient to make links load inside the webview and not in a new chrome app
     private class MyBrowser extends WebViewClient
     {
         @Override
