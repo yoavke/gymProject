@@ -124,6 +124,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
+    /***
+     *
+     * @param activityId
+     * @return json string with activities (aerobic/anaerobic depend on @param
+     */
     public String browseActivities(int activityId) {
 
         //initialize JSON object to store the dataset of the query
@@ -158,6 +163,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return json.toJSONString();
     }
 
+    /***
+     *
+     * @param activityId
+     * @return json string with the details of a specific activity
+     */
     public String selectDetails(int activityId)
     {
 
@@ -189,6 +199,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return json.toJSONString();
     }
 
+    /***
+     *
+     * @param category
+     * @return select activities (aerobic/anaerobic) from the past week (starts in sunday)
+     */
     public String selectCharts(int category)
     {
         long millisecondsPerDay = 86400000; //how many milliseconds in a day

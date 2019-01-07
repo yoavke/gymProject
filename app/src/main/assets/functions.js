@@ -150,7 +150,7 @@ function myGraphs() {
             title: "Anaerobic",
             label: {
                 format: function(value, ratio, id) {
-                    return value+"minutes";
+                    return value+"min";
                 }
             }
         }
