@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.js"></script>
     <script type="text/javascript" src="functions.js"></script>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -13,10 +16,17 @@
         </h1>
     </div>
     <div data-role="main" class="ui-content">
-        <h2>List of all activites</h2>
-        <p id="activityList">
-            Your anaerobic list:<br />
-        </p>
+        <h2>Your anaerobic list:</h2>
+        <fieldset>
+            <label for="datePickerStart">Start date</label>
+            <input type="text" id="datePickerStart" readonly="readonly">
+        </fieldset>
+        <fieldset>
+            <label for="datePickerEnd">End date</label>
+            <input type="text" id="datePickerEnd" readonly="readonly">
+        </fieldset>
+        <a id="filter" class="ui-btn ui-corner-all">Filter and show</a>
+        <div data-role="collapsible-set" id="activityList"></div>
         <a href="addAnAerobic.html" class="ui-btn ui-corner-all">Add new anaerobic</a>
         <script type="text/javascript">
             setTimeout(retrieve,10);

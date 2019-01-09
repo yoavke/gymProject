@@ -35,9 +35,63 @@ function browseAerobic() {
     let json;
     let activities;
 
+    const urlParams = new URLSearchParams(window.location.search);
+    let startDate = urlParams.get('start');
+    let endDate = urlParams.get('end');
+
+    //set date picker start and end dates
+    $(function() {
+        $("#datePickerStart").datepicker({
+            onSelect: function(startDate) {
+                let parseDate = new Date(startDate);
+                let minYear = parseDate.getFullYear();
+                let minMonth = parseDate.getMonth();
+                let minDay = parseDate.getDate();
+                let minDate = new Date(minYear,minMonth,minDay,0,0,0,0);
+                minDate.setDate(minDate.getDate()+1);
+                $("#datePickerEnd").datepicker("option","minDate",minDate);
+                $("#datePickerEnd").datepicker("refresh");
+                $("#datePickerEnd").val("");
+            }
+        })
+
+        $("#datePickerEnd").datepicker();
+
+        let filter = document.querySelector("#filter");
+
+        filter.addEventListener("click",function() {
+            showAerobic($("#datePickerStart").val(),$("#datePickerEnd").val());
+        })
+    });
+
+    showAerobic(startDate,endDate);
+}
+
+function showAerobic(startDate,endDate){
     //send 1 to browseActivites() method to retrieve only Aerobic activities
-    json = JSON.parse(window.browseFromDb.browseActivities("1"));
+    let startDay=null, startMonth=null, startYear=null;
+    let endDay=null, endMonth=null, endYear=null;
+
+    if (startDate!=null && startDate!="") {
+        startDay = startDate.slice(3,5);
+        startMonth = startDate.slice(0,2);
+        startYear = startDate.slice(6,10);
+    }
+
+    if (endDate!=null && endDate!="") {
+        endDay = endDate.slice(3,5);
+        endMonth = endDate.slice(0,2);
+        endYear = endDate.slice(6,10);
+    }
+
+    console.log("console log: start- "+startDate+" end- "+endDate);
+
+    json = JSON.parse(window.browseFromDb.browseActivities("1",(startDate!=null && startDate!="")?(startDay+"/"+startMonth+"/"+startYear).toString():null,(endDate!=null && endDate!="")?(endDay+"/"+endMonth+"/"+endYear).toString():null));
     activities = json.activities;
+
+    //reset div content
+    document.querySelector("#activityList").innerHTML = "";
+
     for (let i = 0 ; i<activities.length;i++) {
         let date = new Date(parseInt(activities[i].timestamp));
         document.querySelector("#activityList").innerHTML += "<div data-role='collapsible' class='coll'>";
@@ -45,7 +99,7 @@ function browseAerobic() {
         document.querySelector("#activityList").innerHTML += activities[i].length + " KM" + " <a href='details.html?activityId="+activities[i]._id+"'>details</a></p>";
         document.querySelector("#activityList").innerHTML += "</div>";
     }
-    $( "#activityList" ).collapsibleset( "refresh" );
+    //$( "#activityList" ).collapsibleset( "refresh" );
 }
 
 //browse Anaerobic activities
@@ -53,17 +107,71 @@ function browseAnaerobic() {
     let json;
     let activities;
 
-    //send 2 to browseActivites() method to retrieve only Aerobic activities
-    json = JSON.parse(window.browseFromDb.browseActivities("2"));
+    const urlParams = new URLSearchParams(window.location.search);
+    let startDate = urlParams.get('start');
+    let endDate = urlParams.get('end');
+
+    //set date picker start and end dates
+    $(function() {
+        $("#datePickerStart").datepicker({
+            onSelect: function(startDate) {
+                let parseDate = new Date(startDate);
+                let minYear = parseDate.getFullYear();
+                let minMonth = parseDate.getMonth();
+                let minDay = parseDate.getDate();
+                let minDate = new Date(minYear,minMonth,minDay,0,0,0,0);
+                minDate.setDate(minDate.getDate()+1);
+                $("#datePickerEnd").datepicker("option","minDate",minDate);
+                $("#datePickerEnd").datepicker("refresh");
+                $("#datePickerEnd").val("");
+            }
+        })
+
+        $("#datePickerEnd").datepicker();
+
+        let filter = document.querySelector("#filter");
+
+        filter.addEventListener("click",function() {
+            showAnAerobic($("#datePickerStart").val(),$("#datePickerEnd").val());
+        })
+    });
+
+    showAnAerobic(startDate,endDate);
+}
+
+function showAnAerobic(startDate,endDate){
+    //send 1 to browseActivites() method to retrieve only Aerobic activities
+    let startDay=null, startMonth=null, startYear=null;
+    let endDay=null, endMonth=null, endYear=null;
+
+    if (startDate!=null && startDate!="") {
+        startDay = startDate.slice(3,5);
+        startMonth = startDate.slice(0,2);
+        startYear = startDate.slice(6,10);
+    }
+
+    if (endDate!=null && endDate!="") {
+        endDay = endDate.slice(3,5);
+        endMonth = endDate.slice(0,2);
+        endYear = endDate.slice(6,10);
+    }
+
+    console.log("console log: start- "+startDate+" end- "+endDate);
+
+    json = JSON.parse(window.browseFromDb.browseActivities("2",(startDate!=null && startDate!="")?(startDay+"/"+startMonth+"/"+startYear).toString():null,(endDate!=null && endDate!="")?(endDay+"/"+endMonth+"/"+endYear).toString():null));
     activities = json.activities;
+
+    //reset div content
+    document.querySelector("#activityList").innerHTML = "";
+
     for (let i = 0 ; i<activities.length;i++) {
         let date = new Date(parseInt(activities[i].timestamp));
         document.querySelector("#activityList").innerHTML += "<div data-role='collapsible' class='coll'>";
         document.querySelector("#activityList").innerHTML += "<h3>"+(i+1)+". "+activities[i].activity+ " (" + date.getDate() +"/"+ (parseInt(date.getMonth())+1) +"/"+ date.getFullYear() + ")</h3>";
-        document.querySelector("#activityList").innerHTML += activities[i].length + " KM" + " <a href='details.html?activityId="+activities[i]._id+"'>details</a></p>";
+        document.querySelector("#activityList").innerHTML += activities[i].length + " Min" + " <a href='details.html?activityId="+activities[i]._id+"'>details</a></p>";
         document.querySelector("#activityList").innerHTML += "</div>";
     }
-    $( "#activityList" ).collapsibleset( "refresh" );
+    //$( "#activityList" ).collapsibleset( "refresh" );
 }
 
 //show details about a particular activity

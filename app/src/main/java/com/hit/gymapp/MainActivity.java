@@ -71,10 +71,10 @@ public class MainActivity extends AppCompatActivity {
     public class browseInteraction
     {
         @android.webkit.JavascriptInterface
-        public String browseActivities(String activityId)
+        public String browseActivities(String activityId,String startDate,String endDate)
         {
             //TODO add filter to filter out other accounts (user_id)
-            return myDb.browseActivities(Integer.parseInt(activityId));
+            return myDb.browseActivities(Integer.parseInt(activityId),startDate,endDate);
         }
     }
 

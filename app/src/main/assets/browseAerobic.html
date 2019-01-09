@@ -17,6 +17,15 @@
     </div>
     <div data-role="main" class="ui-content">
         <h2>Your aerobic list:</h2>
+        <fieldset>
+            <label for="datePickerStart">Start date</label>
+            <input type="text" id="datePickerStart" readonly="readonly">
+        </fieldset>
+        <fieldset>
+            <label for="datePickerEnd">End date</label>
+            <input type="text" id="datePickerEnd" readonly="readonly">
+        </fieldset>
+        <a id="filter" class="ui-btn ui-corner-all">Filter and show</a>
         <div data-role="collapsible-set" id="activityList"></div>
         <a href="addAerobic.html" class="ui-btn ui-corner-all">Add new aerobic</a>
         <script type="text/javascript">

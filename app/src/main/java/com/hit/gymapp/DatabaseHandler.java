@@ -129,19 +129,37 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      * @param activityId
      * @return json string with activities (aerobic/anaerobic depend on @param
      */
-    public String browseActivities(int activityId) {
+    public String browseActivities(int activityId,String startDate,String endDate) {
 
         //initialize JSON object to store the dataset of the query
         JSONObject json = new JSONObject();
         JSONArray arr = new JSONArray();
         json.put("activities",arr);
 
-        //save the dataset inside a cursor
-        //"SELECT "+BaseColumns._ID+",                              activity_id,timestamp,length,activity FROM "+Tables.TRAINER_ACTIVITY+" INNER JOIN Activities ON Trainer_Activity.activity_id=Activities._id WHERE "+Columns.T_A_COL_3+"=?",new String[] {search}
-        //"SELECT "+BaseColumns._ID+",activity_id,timestamp,length,activity FROM "+Tables.TRAINER_ACTIVITY+" INNER JOIN Activities ON Trainer_Activity.activity_id=Activities._id WHERE "+Columns.T_A_COL_3+"=1",null
-        Cursor cursor = db.rawQuery("SELECT Trainer_Activity._id as T_A_ID,Trainer_Activity.trainer_id,Trainer_Activity.activity_id,Trainer_Activity.timestamp,Trainer_Activity.length,Activities._id as A_ID,Activities.activity_category,Activities.activity FROM "+Tables.TRAINER_ACTIVITY+" INNER JOIN "+Tables.ACTIVITIES+" ON "+Tables.TRAINER_ACTIVITY+"."+Columns.T_A_COL_3+"="+Tables.ACTIVITIES+"."+BaseColumns._ID+" WHERE "+Tables.ACTIVITIES+"."+Columns.A_COL_2+"=?",new String[] {String.valueOf(activityId)});
+        long startTimestamp=0;
+        long endTimestamp=0;
 
 
+        if (startDate!=null)
+            startTimestamp = getTimestamp(startDate);
+        if (endDate!=null)
+            endTimestamp = getTimestamp(endDate)+86400000; //add 86400000 - to get to 23:59:59
+
+        //String query = new String("SELECT Trainer_Activity._id as T_A_ID,Trainer_Activity.trainer_id,Trainer_Activity.activity_id,Trainer_Activity.timestamp,Trainer_Activity.length,Activities._id as A_ID,Activities.activity_category,Activities.activity FROM "+Tables.TRAINER_ACTIVITY+" INNER JOIN "+Tables.ACTIVITIES+" ON "+Tables.TRAINER_ACTIVITY+"."+Columns.T_A_COL_3+"="+Tables.ACTIVITIES+"."+BaseColumns._ID+" WHERE "+Tables.ACTIVITIES+"."+Columns.A_COL_2+"=?");
+        String filterStartDate = "";
+        String filterEndDate = "";
+        if (startTimestamp!=0) {
+            filterStartDate = new String(" timestamp>="+startTimestamp+" AND ");
+        }
+        if (endTimestamp!=0) {
+            filterEndDate = new String(" timestamp<="+endTimestamp+" AND ");
+        }
+
+        System.out.println("start: "+startTimestamp + " end: " + endTimestamp);
+
+        String query = new String("SELECT Trainer_Activity._id as T_A_ID,Trainer_Activity.trainer_id,Trainer_Activity.activity_id,Trainer_Activity.timestamp,Trainer_Activity.length,Activities._id as A_ID,Activities.activity_category,Activities.activity FROM "+Tables.TRAINER_ACTIVITY+" INNER JOIN "+Tables.ACTIVITIES+" ON "+Tables.TRAINER_ACTIVITY+"."+Columns.T_A_COL_3+"="+Tables.ACTIVITIES+"."+BaseColumns._ID+" WHERE "+filterStartDate+" "+filterEndDate+" "+Tables.ACTIVITIES+"."+Columns.A_COL_2+"=?");
+
+        Cursor cursor = db.rawQuery(query,new String[] {String.valueOf(activityId)});
 
         //looping through the cursor to put the data in the json
         try {
@@ -161,6 +179,25 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         //return json format with all data from the database
         return json.toJSONString();
+    }
+
+    public long getTimestamp(String date) {
+
+        //split the date
+        String[] temp = date.split("/");
+
+        Calendar c = Calendar.getInstance();
+
+        //set to midnight
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+
+        //set the date (year, month-1, day) month-1 because months starts at 0
+        c.set(Integer.parseInt(temp[2]),Integer.parseInt(temp[1])-1,Integer.parseInt(temp[0]));
+
+        return c.getTimeInMillis();
     }
 
     /***
