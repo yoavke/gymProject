@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         webby.addJavascriptInterface(new detailsInteraction(),"detailsFromDb");         //get details about activitiy
         webby.addJavascriptInterface(new kmInteraction(),"kmFromDb");                   //get details for charts
         webby.addJavascriptInterface(new deleteInteraction(), "deleteActivityFromDb");  //delete activity
+        webby.addJavascriptInterface(new updateInteraction(), "updateDb");  //delete activity
     }
 
     //extend WebViewClient to make links load inside the webview and not in a new chrome app
@@ -104,6 +105,15 @@ public class MainActivity extends AppCompatActivity {
         public void deleteActivity(int activityId) {
             //TODO add filter to filter out other accounts (user_id)
             myDb.deleteActivity(activityId);
+        }
+    }
+
+    public class updateInteraction {
+
+        @android.webkit.JavascriptInterface
+        public void updateActivity(String activityId, String length, String date) {
+            //TODO add filter to filter out other accounts (user_id)
+            myDb.updateActivity(Integer.parseInt(activityId),length,date);
         }
     }
 }

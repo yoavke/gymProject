@@ -6,24 +6,38 @@
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script type="text/javascript" src="functions.js"></script>
     <meta charset="UTF-8">
-    <title>Android Project</title>
+    <title>Edit Details</title>
 </head>
 <body>
 <div data-role="page">
     <div data-role="header">
         <h1>
-            Activity details:
+            Edit:
         </h1>
     </div>
     <div data-role="main" class="ui-content">
         <p>
             Details about the activity<br>
-            <div id="details"></div>
-            <div><a id="editLink">edit</a> | <a href='' id='deleteActivity'>delete</a></div>
+            <fieldset>
+                <label for="datePickerStart">Start date</label>
+                <input type="text" id="datePickerStart" readonly="readonly">
+            </fieldset>
+            <label for="lengthKm">How long</label>
+            <select name="length" id="lengthKm">
+                <script type="text/javascript">
+                    for (let i=1; i<=40 ; i++)
+                    {
+                        let select = document.querySelector("#lengthKm");
+                        let option = document.createElement("OPTION");
+                        option.innerText=i+" km";
+                        option.value = i;
+                        select.appendChild(option);
+                    }
+                </script>
+            </select>
+            <a id="setDetails">Update!</a>
         </p>
-        <a href="file:///android_asset/addActivity.html" class="ui-btn">Add new activity</a>
         <a href="browseActivity.html" class="ui-btn">Browse activities</a>
-        <a href="myGraphs.html" class="ui-btn">Show my graphs</a>
     </div>
     <script type="text/javascript">
         setTimeout(retrieve,10);

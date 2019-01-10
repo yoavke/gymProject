@@ -19,6 +19,9 @@ function retrieve() {
     else if (page=="details.html") {
         details();
     }
+    else if (page=="editDetails.html") {
+        editDetails();
+    }
     else if(page=='addAerobic.html') {
         addAerobic();
     }
@@ -179,17 +182,70 @@ function details() {
     let json;
     let activities;
 
+    //extracting the url parameters
     const urlParams = new URLSearchParams(window.location.search);
     const activityId = parseInt(urlParams.get('activityId'));
 
+    //get the json with the details of the activity
     json = JSON.parse(window.detailsFromDb.selectDetails(activityId));
+
+    //get the first key (activities) to extract the details from it
     activities = json.activities;
+
+    //extract the date, using the timestamp
     let date = new Date(parseInt(activities[0].timestamp));
+
+    //printing the activity
     document.querySelector("#details").innerHTML += "<h2>" +activities[0].activity+ " (" + date.getDate() +"/"+ (parseInt(date.getMonth())+1) +"/"+ date.getFullYear() + ")</h2>";
     document.querySelector("#details").innerHTML += "<p>"+activities[0].length + " " + (activities[0].activity=='swimming'?"pools":"km") + "</p>";
+
+    //delete activity after clicking the link to delete
     document.querySelector("#deleteActivity").addEventListener("click",function() {
         window.deleteActivityFromDb.deleteActivity(parseInt(activities[0]._id));
-    })
+    });
+
+    //set the link to edit the activity
+    document.querySelector("#editLink").setAttribute("href","editDetails.html?activityId="+activityId);
+}
+
+function editDetails() {
+    let json;
+    let activities;
+
+    //extracting the url parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const activityId = parseInt(urlParams.get('activityId'));
+
+    //get the json with the details of the activity
+    json = JSON.parse(window.detailsFromDb.selectDetails(activityId));
+
+    //get the first key (activities) to extract the details from it
+    activities = json.activities;
+
+    //extract the date, using the timestamp
+    let date = new Date(parseInt(activities[0].timestamp));
+
+    let day = date.getDate();
+    let month = date.getMonth()+1;  //set january to 1 instead of 0
+    let year = date.getFullYear();
+
+    //set datepicker and show the date of the activity
+    $(function() {
+        $("#datePickerStart").datepicker();
+        $("#datePickerStart").datepicker("setDate",(month+"/"+day+"/"+year).toString());
+    });
+
+    //
+    let setDetails = document.querySelector("#setDetails");
+
+    //update details of the activity after clicking the link #setDetails
+    setDetails.addEventListener("click",function() {
+        let rawDate = new Date(document.querySelector("#datePickerStart").value);
+        let formmatedDate = rawDate.getDate()+"/"+(rawDate.getMonth()+1)+"/"+rawDate.getFullYear();
+        window.updateDb.updateActivity(activityId,document.querySelector("#lengthKm").value,formmatedDate);
+    });
+
+
 }
 
 //add a new aerobic activity to the database

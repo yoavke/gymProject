@@ -181,6 +181,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return json.toJSONString();
     }
 
+    /***
+     *
+     * @param date (mm/dd/yyyy)
+     * @return
+     */
     public long getTimestamp(String date) {
 
         //split the date
@@ -309,6 +314,30 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             showToast(context,"Error: activity doesnt appear in the db");
         } else {
             showToast(context, "Successfully deleted");
+        }
+    }
+
+    public void updateActivity(int activityId, String length, String date)
+    {
+        //get the timestamp of the specified date
+        long timestamp = getTimestamp(date);
+
+        //initialize ContentValues object
+        ContentValues values = new ContentValues();
+
+        //fill in the values
+        values.put(Columns.T_A_COL_4, timestamp);
+        values.put(Columns.T_A_COL_5, length);
+
+        int rows_affected;
+
+        //make the insertion to the db
+        rows_affected=db.update(Tables.TRAINER_ACTIVITY,values,"_id="+activityId,null);
+        if (rows_affected==0)
+        {
+            this.showToast(this.context,"Error: try again");
+        } else {
+            this.showToast(this.context,"Updated successfully " + rows_affected + " rows affected");
         }
     }
 
