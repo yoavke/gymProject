@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 
 //TODO add stack for history of pages
@@ -16,7 +17,8 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -44,6 +46,18 @@ public class MainActivity extends AppCompatActivity {
         webby.addJavascriptInterface(new deleteInteraction(), "deleteActivityFromDb");  //delete activity
         webby.addJavascriptInterface(new updateInteraction(), "updateDb");              //update activity
     }
+
+    @Override
+    public void onBackPressed() {
+
+        //TODO write code for this event
+        //if there's a previous html page, go back, otherwise finish the activity(app)
+        Toast.makeText(this,"Need to write feature (TODO list)",Toast.LENGTH_LONG).show();
+
+        return;
+
+    }
+
 
     //extend WebViewClient to make links load inside the webview and not in a new chrome app
     private class MyBrowser extends WebViewClient
@@ -97,7 +111,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public class deleteInteraction {
+    public class deleteInteraction
+    {
 
         @android.webkit.JavascriptInterface
         public void deleteActivity(int activityId) {
@@ -106,7 +121,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public class updateInteraction {
+    public class updateInteraction
+    {
 
         @android.webkit.JavascriptInterface
         public void updateActivity(String activityId, String length, String date) {
