@@ -94,6 +94,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+
     /***
      * Adding a new activity to the DB
      * @param userId - the id of the trainer
@@ -145,7 +146,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (endDate!=null)
             endTimestamp = getTimestamp(endDate)+86400000; //add 86400000 - to get to 23:59:59
 
-        //String query = new String("SELECT Trainer_Activity._id as T_A_ID,Trainer_Activity.trainer_id,Trainer_Activity.activity_id,Trainer_Activity.timestamp,Trainer_Activity.length,Activities._id as A_ID,Activities.activity_category,Activities.activity FROM "+Tables.TRAINER_ACTIVITY+" INNER JOIN "+Tables.ACTIVITIES+" ON "+Tables.TRAINER_ACTIVITY+"."+Columns.T_A_COL_3+"="+Tables.ACTIVITIES+"."+BaseColumns._ID+" WHERE "+Tables.ACTIVITIES+"."+Columns.A_COL_2+"=?");
         String filterStartDate = "";
         String filterEndDate = "";
         if (startTimestamp!=0) {
@@ -157,7 +157,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         System.out.println("start: "+startTimestamp + " end: " + endTimestamp);
 
-        String query = new String("SELECT Trainer_Activity._id as T_A_ID,Trainer_Activity.trainer_id,Trainer_Activity.activity_id,Trainer_Activity.timestamp,Trainer_Activity.length,Activities._id as A_ID,Activities.activity_category,Activities.activity FROM "+Tables.TRAINER_ACTIVITY+" INNER JOIN "+Tables.ACTIVITIES+" ON "+Tables.TRAINER_ACTIVITY+"."+Columns.T_A_COL_3+"="+Tables.ACTIVITIES+"."+BaseColumns._ID+" WHERE "+filterStartDate+" "+filterEndDate+" "+Tables.ACTIVITIES+"."+Columns.A_COL_2+"=?");
+        String query = new String("SELECT Trainer_Activity._id as T_A_ID,Trainer_Activity.trainer_id,Trainer_Activity.activity_id,Trainer_Activity.timestamp,Trainer_Activity.length,Activities._id as A_ID,Activities.activity_category,Activities.activity FROM "+Tables.TRAINER_ACTIVITY+" INNER JOIN "+Tables.ACTIVITIES+" ON "+Tables.TRAINER_ACTIVITY+"."+Columns.T_A_COL_3+"="+Tables.ACTIVITIES+"."+BaseColumns._ID+" WHERE "+filterStartDate+" "+filterEndDate+" "+Tables.ACTIVITIES+"."+Columns.A_COL_2+"=? ORDER BY timestamp DESC");
 
         Cursor cursor = db.rawQuery(query,new String[] {String.valueOf(activityId)});
 
@@ -317,6 +317,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
+    /***
+     *
+     * @param activityId
+     * @param length
+     * @param date
+     */
     public void updateActivity(int activityId, String length, String date)
     {
         //get the timestamp of the specified date
@@ -350,16 +356,4 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     {
         Toast.makeText(context,t,Toast.LENGTH_LONG).show();
     }
-
-    //TODO remove this method (doesDatabaseExist)
-    /***
-     *
-     * @param context always this
-     * @param dbName database to check if exists
-     * @return true if db exists and false if not
-     */
-//    public static boolean doesDatabaseExist(Context context, String dbName) {
-//        File dbFile = context.getDatabasePath(dbName);
-//        return dbFile.exists();
-//    }
 }

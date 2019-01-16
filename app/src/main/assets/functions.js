@@ -3,13 +3,14 @@ function retrieve() {
     //set the footer
     let my_foot = document.querySelectorAll(".ui-footer.ui-bar-inherit");
     for (let i=0;i<my_foot.length;i++) {
-        my_foot[i].innerHTML = '<a href="index.html">Go Home</a> HIT Project - Yoav Keren';
+        my_foot[i].innerHTML = '<center><a href="index.html">Go Home</a> | HIT Project</center>';
     }
 
     //return current page
     let pathname = window.location.pathname;
     let page = pathname.slice(15);
 
+    //for each page, call the matched function
     if (page == 'browseAerobic.html') {
         browseAerobic();
     }
@@ -35,7 +36,9 @@ function retrieve() {
 
 //browse Aerobic activities
 function browseAerobic() {
+    //hold the json string
     let json;
+    //hold the array of activities (1st key in each json)
     let activities;
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -58,15 +61,19 @@ function browseAerobic() {
             }
         })
 
+        //create the datepicker
         $("#datePickerEnd").datepicker();
 
+        //reference to the filter link
         let filter = document.querySelector("#filter");
 
+        //listen to click event and call showAerobic to show the activities between these dates
         filter.addEventListener("click",function() {
             showAerobic($("#datePickerStart").val(),$("#datePickerEnd").val());
         })
     });
 
+    //1st call of the page - show all aerobic activities (since first install of the app)
     showAerobic(startDate,endDate);
 }
 
@@ -89,6 +96,7 @@ function showAerobic(startDate,endDate){
 
     console.log("console log: start- "+startDate+" end- "+endDate);
 
+    //get the json string with the aerobic activities
     json = JSON.parse(window.browseFromDb.browseActivities("1",(startDate!=null && startDate!="")?(startDay+"/"+startMonth+"/"+startYear).toString():null,(endDate!=null && endDate!="")?(endDay+"/"+endMonth+"/"+endYear).toString():null));
     activities = json.activities;
 
@@ -102,7 +110,6 @@ function showAerobic(startDate,endDate){
         document.querySelector("#activityList").innerHTML += activities[i].length + " KM" + " <a href='details.html?activityId="+activities[i]._id+"'>details</a></p>";
         document.querySelector("#activityList").innerHTML += "</div>";
     }
-    //$( "#activityList" ).collapsibleset( "refresh" );
 }
 
 //browse Anaerobic activities

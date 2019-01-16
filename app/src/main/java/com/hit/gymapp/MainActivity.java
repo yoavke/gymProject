@@ -1,14 +1,12 @@
 package com.hit.gymapp;
 
 //TODO remove libraries I dont use
-import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 
 //TODO add stack for history of pages
@@ -41,10 +39,10 @@ public class MainActivity extends AppCompatActivity {
         //add interactions with the js code (functions.js) to integrate with the DB
         webby.addJavascriptInterface(new addInteraction(),"addToDb");                   //add activities
         webby.addJavascriptInterface(new browseInteraction(),"browseFromDb");           //browse activities
-        webby.addJavascriptInterface(new detailsInteraction(),"detailsFromDb");         //get details about activitiy
+        webby.addJavascriptInterface(new detailsInteraction(),"detailsFromDb");         //get details about activity
         webby.addJavascriptInterface(new kmInteraction(),"kmFromDb");                   //get details for charts
         webby.addJavascriptInterface(new deleteInteraction(), "deleteActivityFromDb");  //delete activity
-        webby.addJavascriptInterface(new updateInteraction(), "updateDb");  //delete activity
+        webby.addJavascriptInterface(new updateInteraction(), "updateDb");              //update activity
     }
 
     //extend WebViewClient to make links load inside the webview and not in a new chrome app
